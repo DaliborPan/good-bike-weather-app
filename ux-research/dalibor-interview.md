@@ -1,4 +1,4 @@
-### Dalibor
+### Dalibor výzkumné + konkrétní otázky
 
 - Jak často se kouká na počasí?
 
