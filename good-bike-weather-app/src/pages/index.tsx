@@ -1,26 +1,28 @@
 import type { NextPage } from 'next'
-import { useSomething } from '../hooks/test'
+import { AppNavigation } from '../components/AppNavigation'
+import { Card } from '../components/Card'
 
 const Home: NextPage = () => {
-  const { data, isLoading, isError } = useSomething()
-
-  if (isError) return <div>Error</div>
 
   return (
-    <div className="min-h-screen bg-slate-300 flex flex-col">
-      <div className="container mx-auto px-10">
-        <h1 className="text-red-800 font-bold">Hello world</h1>
-        <h2 className="text-blue-600 font-light ">Subtitle</h2>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          data.numbers.map((number, i) => (
-            <div key={`number-${i}`} className="text-blue-500">
-              {number}
-            </div>
-          ))
-        )}
-      </div>
+    <div className="flex flex-col absolute top-0 bottom-0 left-0 right-0 app-bg">
+      <AppNavigation />
+
+      <Card
+        title={'Yesterday'}
+        className="absolute top-1/2 left-[20%] -translate-x-1/2 -translate-y-[45%] scale-75"
+      />
+
+      <Card
+        title={'Today'}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%]"
+      />
+
+      <Card
+        title={'Tomorrow'}
+        className="absolute top-1/2 left-[80%] -translate-x-1/2 -translate-y-[45%] scale-75"
+      />
+
     </div>
   )
 }
