@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base { }
+
+@layer components {
+
+    .app-bg {}
+
+    .app-bg:before {
+        content: '';
+        clip-path: polygon(0 0, 0% 100%, 75% 0);
+        @apply absolute -z-10 top-0 left-0 right-0 bottom-0 bg-green;
+    }
+
+    .app-navigation {
+        @apply text-2xl px-4 mt-auto pb-2 border-b-2 border-b-transparent cursor-pointer;
+        @apply hover:app-navigation--active;
+    }
+
+    .app-navigation--active {
+        @apply text-whiskey border-b-whiskey transition-all;
+    }
+
+}

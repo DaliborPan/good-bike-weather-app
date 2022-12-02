@@ -5,7 +5,19 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      'sans': ['Titillium Web', 'sans-serif'],
+    },
+    colors: {
+      'white': '#FFFFFF',
+      'black': '#000000',
+      'light-green': '#E9EDC9',
+      'green': '#606C38',
+      'whiskey': '#BC6C25',
+      'off-yellow': '#FEFAE0',
+      'transparent': '#00000000'
+    },
+    extend: { },
   },
   plugins: [],
 }
