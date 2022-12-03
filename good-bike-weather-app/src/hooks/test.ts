@@ -7,7 +7,6 @@ type SomethingData = {
 
 const getSomething = async () => {
   const response = await axios.get('/api/hello')
-  console.log(response.data)
   return response.data as SomethingData
 }
 

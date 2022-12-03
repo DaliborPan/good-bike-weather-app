@@ -1,26 +1,18 @@
 import type { NextPage } from 'next'
-import { AppNavigation } from '../components/AppNavigation'
-import { Card } from '../components/Card'
+import { signIn } from 'next-auth/react'
 
 const Home: NextPage = () => {
   return (
-    <div className="flex flex-col absolute top-0 bottom-0 left-0 right-0 app-bg">
-      <AppNavigation />
-
-      <Card
-        title={'Yesterday'}
-        className="absolute top-1/2 left-[20%] -translate-x-1/2 -translate-y-[45%] scale-75"
-      />
-
-      <Card
-        title={'Today'}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%]"
-      />
-
-      <Card
-        title={'Tomorrow'}
-        className="absolute top-1/2 left-[80%] -translate-x-1/2 -translate-y-[45%] scale-75"
-      />
+    <div className="min-h-screen bg-off-yellow flex flex-col">
+      <div className="container mx-auto w-full">
+        <h1>Landing page</h1>
+        <button
+          className="mt-10 px-4 py-2 bg-whiskey text-off-yellow rounded"
+          onClick={() => signIn('google')}
+        >
+          Sign in with google
+        </button>
+      </div>
     </div>
   )
 }

@@ -6,6 +6,7 @@ import { Menu } from '@headlessui/react'
 import { usePopper } from 'react-popper'
 import { createPortal } from 'react-dom'
 import { IcoChevronRight } from './icons/IcoChevronRight'
+import { signOut, useSession } from 'next-auth/react'
 
 interface IProps {
   className?: string
@@ -19,9 +20,14 @@ interface NavOpt {
 export const AppNavigation: FC<IProps> = ({ className }) => {
   const router = useRouter()
 
+  // TODO: create custom hook, because since we use middleware to handle
+  // authentication, at this point we can assume, that `data.user`
+  // will always be defined
+  const { data } = useSession()
+
   const navOpts: NavOpt[] = [
-    { link: '/', name: 'Home' },
-    { link: '/history', name: 'History' },
+    { link: '/auth/home', name: 'Home' },
+    { link: '/auth/history', name: 'History' },
   ]
 
   const [referenceElement, setReferenceElement] =
@@ -77,7 +83,7 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
             <div className="w-11 h-11 bg-whiskey rounded-full flex justify-center items-center">
               <span className="text-white text-2xl">JD</span>
             </div>
-            <div className="text-xl mr-7 ml-3">John Doe</div>
+            <div className="text-xl mr-7 ml-3">{data?.user?.name}</div>
             <IcoChevronRight className={`fill-whiskey w-6 rotate-90`} />
           </Menu.Button>
 
@@ -93,7 +99,11 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
                 <Menu.Item as="button" className="block w-full p-2 text-left">
                   Settings
                 </Menu.Item>
-                <Menu.Item as="button" className="block w-full p-2 text-left">
+                <Menu.Item
+                  as="button"
+                  className="block w-full p-2 text-left"
+                  onClick={() => signOut()}
+                >
                   Logout
                 </Menu.Item>
               </Menu.Items>,
