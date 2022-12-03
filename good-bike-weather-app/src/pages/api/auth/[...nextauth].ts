@@ -19,8 +19,5 @@ export default NextAuth({
     redirect: async ({ baseUrl }) => {
       return `${baseUrl}/auth/home`
     },
-    // session: async (data) => {
-    //   return data
-    // }
   },
 })
