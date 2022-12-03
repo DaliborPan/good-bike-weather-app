@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Menu } from '@headlessui/react'
 import { usePopper } from 'react-popper'
 import { createPortal } from 'react-dom'
-import { IcoChevronRight } from './icons/icoChevronRight'
+import { IcoChevronRight } from './icons/IcoChevronRight'
 
 interface IProps {
   className?: string
@@ -41,58 +41,67 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
   })
 
   return (
-    <div className={`w-full h-16 bg-light-green flex ${className ? className : ''}`}>
-        {/* Left side of the header */}
-        <div className="grow px-2 flex items-center">
-            <div className={'mr-6 h-11 w-64 relative'}>
-            <Image
-                src="/images/logo-color-transparent.png"
-                alt="Company logo"
-                layout="fill"
-                objectFit="contain"
-            />
+    <div
+      className={`w-full h-16 bg-light-green flex ${
+        className ? className : ''
+      }`}
+    >
+      {/* Left side of the header */}
+      <div className="grow px-2 flex items-center">
+        <div className={'mr-6 h-11 w-64 relative'}>
+          <Image
+            src="/images/logo-color-transparent.png"
+            alt="Company logo"
+            layout="fill"
+            objectFit="contain"
+          />
+        </div>
+
+        {navOpts.map((navOpt) => (
+          <Link key={navOpt.link} href={navOpt.link}>
+            <span
+              className={`app-navigation ${
+                router.asPath === navOpt.link ? 'app-navigation--active' : ''
+              }`}
+            >
+              {navOpt.name}
+            </span>
+          </Link>
+        ))}
+      </div>
+
+      {/* Right side of the header */}
+      <div className="self-center pr-6">
+        <Menu>
+          <Menu.Button className="flex items-center" ref={setReferenceElement}>
+            <div className="w-11 h-11 bg-whiskey rounded-full flex justify-center items-center">
+              <span className="text-white text-2xl">JD</span>
             </div>
+            <div className="text-xl mr-7 ml-3">John Doe</div>
+            <IcoChevronRight className={`fill-whiskey w-6 rotate-90`} />
+          </Menu.Button>
 
-            {navOpts.map((navOpt) => (
-            <Link key={navOpt.link} href={navOpt.link}>
-                <span
-                className={`app-navigation ${
-                    router.asPath === navOpt.link ? 'app-navigation--active' : ''
-                }`}
-                >
-                {navOpt.name}
-                </span>
-            </Link>
-            ))}
-        </div>
-
-        {/* Right side of the header */}
-        <div className="self-center pr-6">
-            <Menu>
-                <Menu.Button className="flex items-center" ref={setReferenceElement}>
-                    <div className="w-11 h-11 bg-whiskey rounded-full flex justify-center items-center">
-                        <span className="text-white text-2xl">JD</span>
-                    </div>
-                    <div className="text-xl mr-7 ml-3">John Doe</div>
-                    <IcoChevronRight className={`fill-whiskey w-6 rotate-90`} />
-                </Menu.Button>
-            
-                { typeof window === 'object' && createPortal(
-                    <Menu.Items
-                        as="div"
-                        ref={setPopperElement}
-                        style={styles.popper}
-                        {...attributes.popper}
-                        className="w-56 bg-whiskey rounded-lg divide-y px-4 py-2 text-white divide-y-white text-lg"
-                    >
-                        <Menu.Item as="button" className="block w-full p-2 text-left">Settings</Menu.Item>
-                        <Menu.Item as="button" className="block w-full p-2 text-left">Logout</Menu.Item>
-                    </Menu.Items>,
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    document.querySelector("#portal")!
-                )}
-            </Menu>
-        </div>
+          {typeof window === 'object' &&
+            createPortal(
+              <Menu.Items
+                as="div"
+                ref={setPopperElement}
+                style={styles.popper}
+                {...attributes.popper}
+                className="w-56 bg-whiskey rounded-lg divide-y px-4 py-2 text-white divide-y-white text-lg"
+              >
+                <Menu.Item as="button" className="block w-full p-2 text-left">
+                  Settings
+                </Menu.Item>
+                <Menu.Item as="button" className="block w-full p-2 text-left">
+                  Logout
+                </Menu.Item>
+              </Menu.Items>,
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              document.querySelector('#portal')!
+            )}
+        </Menu>
+      </div>
     </div>
   )
 }
