@@ -1,23 +1,28 @@
-import { NextPage } from 'next'
-import { signOut, useSession } from 'next-auth/react'
+import type { NextPage } from 'next'
+import { AppNavigation } from '../../components/AppNavigation'
+import { Card } from '../../components/Card'
 
-const HomePage: NextPage = () => {
-  // TOOD: create custom hook - `data.user` will always be defined
-  // since we check authentication on middleware.
-  const { data } = useSession()
-
+const Home: NextPage = () => {
   return (
-    <div>
-      <h1>Authorized page - Home</h1>
-      <h2>{data?.user?.name}</h2>
-      <button
-        className="mt-10 border border-blue-800 px-4 py-2 rounded"
-        onClick={() => signOut()}
-      >
-        Sign out
-      </button>
+    <div className="flex flex-col absolute top-0 bottom-0 left-0 right-0 app-bg">
+      <AppNavigation />
+
+      <Card
+        title={'Yesterday'}
+        className="absolute top-1/2 left-[20%] -translate-x-1/2 -translate-y-[45%] scale-75"
+      />
+
+      <Card
+        title={'Today'}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%]"
+      />
+
+      <Card
+        title={'Tomorrow'}
+        className="absolute top-1/2 left-[80%] -translate-x-1/2 -translate-y-[45%] scale-75"
+      />
     </div>
   )
 }
 
-export default HomePage
+export default Home
