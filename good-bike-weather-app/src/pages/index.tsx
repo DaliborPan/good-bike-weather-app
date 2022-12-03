@@ -3,7 +3,6 @@ import { AppNavigation } from '../components/AppNavigation'
 import { Card } from '../components/Card'
 
 const Home: NextPage = () => {
-
   return (
     <div className="flex flex-col absolute top-0 bottom-0 left-0 right-0 app-bg">
       <AppNavigation />
@@ -22,7 +21,6 @@ const Home: NextPage = () => {
         title={'Tomorrow'}
         className="absolute top-1/2 left-[80%] -translate-x-1/2 -translate-y-[45%] scale-75"
       />
-
     </div>
   )
 }

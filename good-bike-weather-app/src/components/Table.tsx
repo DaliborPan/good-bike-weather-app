@@ -1,12 +1,9 @@
-import { FC } from 'react';
+import { FC } from 'react'
 
 interface IProps {
-    className?: string
+  className?: string
 }
 
 export const Table: FC<IProps> = ({ className }) => {
-
-    return <div className={`${ className ? className : '' }`}>
-
-    </div>
+  return <div className={`${className ? className : ''}`}></div>
 }

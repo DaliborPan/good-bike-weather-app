@@ -1,13 +1,13 @@
-import { FC } from 'react';
+import { FC } from 'react'
 
 interface IProps {
-    className?: string
+  className?: string
 }
 
 export const Toolbar: FC<IProps> = ({ className }) => {
-
-
-    return <div className={`bg-light-green rounded-lg h-16 ${ className ? className : '' }`}>
-
-    </div>
+  return (
+    <div
+      className={`bg-light-green rounded-lg h-16 ${className ? className : ''}`}
+    ></div>
+  )
 }

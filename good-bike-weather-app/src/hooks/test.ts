@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
 type SomethingData = {
   numbers: number[]
@@ -13,6 +13,6 @@ const getSomething = async () => {
 
 export const useSomething = () => {
   return useQuery(['some-key'], getSomething, {
-    staleTime: 60 * 10
+    staleTime: 60 * 10,
   })
 }
