@@ -55,7 +55,7 @@
 
 .MuiSlider-markLabel {
   font-size: 0.6rem;
-  top: 25px;
+  top: 25px !important;
 }
 
 .MuiSlider-root {
