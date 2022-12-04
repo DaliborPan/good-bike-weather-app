@@ -1,8 +1,8 @@
 import { GetStaticProps, NextPage } from 'next'
-import { getBrnoBikeAccidents } from '../../services/accidents'
-import { BrnoBikeAccidentsResponse } from '../../types'
+import { getHistoryPageData } from '../../services/history'
+import { HistoryPageData } from '../../types'
 
-const HistoryPage: NextPage<{ data: BrnoBikeAccidentsResponse }> = ({ data }) => {
+const HistoryPage: NextPage<{ data: HistoryPageData[] }> = ({ data }) => {
   return (
     <div>
       <h1>History page</h1>
@@ -13,11 +13,9 @@ const HistoryPage: NextPage<{ data: BrnoBikeAccidentsResponse }> = ({ data }) =>
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const brnoBikeAccidents = await getBrnoBikeAccidents()
-
   return {
     props: {
-      data: brnoBikeAccidents,
+      data: await getHistoryPageData(),
     },
   }
 }

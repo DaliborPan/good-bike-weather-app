@@ -1,3 +1,5 @@
+export const OFFSET_YEAR = 10
+
 export const EXAMPLE_BRNO_BIKE_ACCIDENT_RESPONSE = {
   attributes: {
     datum: 1307145600000,
@@ -44,6 +46,19 @@ export const EXAMPLE_BRNO_BIKE_ACCIDENT_RESPONSE = {
   },
   geometry: { x: 16.635973826073265, y: 49.209374582087854 },
 }
+
+export const YEARS = [
+  1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979,
+  1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+  1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
+  2018,
+] as const
+
+export const MONTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const
+
+export const DANGER_INDICES = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const
+
+export const TRANSPORT_TYPES = ['BIKE', 'BUS', 'CAR'] as const
 
 export const API_BRNO_BIKE_ACCIDENTS =
   'https://gis.brno.cz/ags1/rest/services/Hosted/Cyklo_nehody/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json'
