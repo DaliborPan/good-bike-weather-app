@@ -1,4 +1,4 @@
-import { EXAMPLE_BRNO_BIKE_ACCIDENT_RESPONSE, MONTHS, YEARS, DANGER_INDICES, TRANSPORT_TYPES } from '../const'
+import { EXAMPLE_BRNO_BIKE_ACCIDENT_RESPONSE, MONTHS, YEARS, DANGER_INDICES, TRANSPORT_TYPES } from '../const';
 
 export type BrnoBikeAccidentsResponse = typeof EXAMPLE_BRNO_BIKE_ACCIDENT_RESPONSE[]
 
@@ -26,5 +26,6 @@ export type HistoryPageData = {
   precipitation: number
   index: DangerIndex
   transport: Transport
-  accidents: BrnoBikeAccidentsResponse
+  accidents: BrnoBikeAccidentsResponse,
+  date: string
 }

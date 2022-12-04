@@ -48,7 +48,7 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
 
   return (
     <div
-      className={`w-full h-16 bg-light-green flex ${
+      className={`shrink-0 w-full h-16 bg-light-green flex ${
         className ? className : ''
       }`}
     >
@@ -81,7 +81,7 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
         <Menu>
           <Menu.Button className="flex items-center" ref={setReferenceElement}>
             <div className="w-11 h-11 bg-whiskey rounded-full flex justify-center items-center">
-              <span className="text-white text-2xl">JD</span>
+              <span className="text-white text-2xl">{data?.user?.name?.trim().split(' ').map(name => name[0]).join('')}</span>
             </div>
             <div className="text-xl mr-7 ml-3">{data?.user?.name}</div>
             <IcoChevronRight className={`fill-whiskey w-6 rotate-90`} />

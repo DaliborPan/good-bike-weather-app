@@ -1,6 +1,7 @@
 // TODO: Remove once functions are implemented
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import moment from 'moment'
 import { BrnoBikeAccidentsResponse, DangerIndex, HistoryPageData, MetricValue, Month, Transport, Year } from '../types'
 import { getBrnoBikeAccidents } from './accidents'
 import { getTemperatureAllTime, getPrecipitationAllTime } from './weather'
@@ -75,6 +76,7 @@ export const getHistoryPageData = async () => {
           accidents,
           day: day,
           index,
+          date: moment({ year, month, day }).utc(true).toString(),
         } as HistoryPageData
       })
       .sort(compareHistoryPageData)
