@@ -9,7 +9,7 @@ import {
 } from '../const'
 import { getBrnoBikeAccidents } from '../services/accidents'
 import { DayData, Month, WeatherPrecipitationResponse, WeatherTemperatureResponse, Year } from '../types'
-import { getDayData } from '../utils'
+import { getDayData, isNotNull } from '../utils'
 
 const getDateObject = (d: Date) => ({
   date: d.getDate(),
@@ -58,14 +58,16 @@ const getHomeData = async (): Promise<DayData[]> => {
     getPrecipitation(year),
   ])
 
-  return getDates().map((dateObject) =>
-    getDayData(
-      dateObject,
-      brnoBikeAccidents,
-      temperatureResponse[dateObject.month],
-      precipitationResponse[dateObject.month]
+  return getDates()
+    .map((dateObject) =>
+      getDayData(
+        dateObject,
+        brnoBikeAccidents,
+        temperatureResponse[dateObject.month],
+        precipitationResponse[dateObject.month]
+      )
     )
-  )
+    .filter(isNotNull)
 }
 
 export const useHomeData = () => {

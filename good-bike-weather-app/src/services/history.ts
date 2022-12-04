@@ -1,5 +1,5 @@
 import { DayData } from '../types'
-import { getDayData } from '../utils'
+import { getDayData, isNotNull } from '../utils'
 import { getBrnoBikeAccidents } from './accidents'
 import { getTemperatureAllTime, getPrecipitationAllTime } from './weather'
 
@@ -32,6 +32,7 @@ export const getHistoryPageData = async () => {
       .map((key) =>
         getDayData({ date: +key, month, year }, brnoBikeAccidents, temperatureMonthData, monthPrecipitationData)
       )
+      .filter(isNotNull)
       .sort(compareHistoryPageData)
   })
 

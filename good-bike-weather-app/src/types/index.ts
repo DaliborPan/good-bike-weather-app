@@ -22,8 +22,8 @@ export type DayData = {
   year: Year
   month: Month
   day: number
-  temperature: MetricValue
-  precipitation: MetricValue
+  temperature: number
+  precipitation: number
   index: DangerIndex
   transport: Transport
   accidents: BrnoBikeAccidentsResponse

@@ -5,7 +5,6 @@ import {
   BrnoBikeAccidentsResponse,
   DangerIndex,
   DateObject,
-  MetricValue,
   Month,
   Transport,
   WeatherPrecipitationResponse,
@@ -16,8 +15,8 @@ import {
 // TODO - implement
 const calculateIndex = (
   accidents: BrnoBikeAccidentsResponse,
-  temperature: MetricValue,
-  precipitation: MetricValue
+  temperature: number,
+  precipitation: number
 ): DangerIndex => {
   return 8
 }
@@ -38,14 +37,22 @@ const filterAccidentsByDate = (
   )
 }
 
+export const isNotNull = <T>(obj: T | null): obj is T => {
+  return obj !== null
+}
+
 export const getDayData = (
   { date, month, year }: DateObject,
   brnoBikeAccidents: BrnoBikeAccidentsResponse,
   temperatureResponse: Omit<WeatherTemperatureResponse[0], 'month' | 'year'>,
   precipitationResponse?: Omit<WeatherPrecipitationResponse[0], 'month' | 'year'>
 ) => {
-  const temperature = temperatureResponse[date] ?? ''
-  const precipitation = precipitationResponse?.[date] ?? ''
+  const temperature = temperatureResponse[date]
+  if (!temperature) return null
+
+  // At this point we know, that
+  // `temperature` and `precipitation` are defined and are numbers
+  const precipitation = precipitationResponse![date] as number
   const accidents = filterAccidentsByDate(brnoBikeAccidents, month, date, year)
 
   const index = calculateIndex(brnoBikeAccidents, temperature, precipitation)
