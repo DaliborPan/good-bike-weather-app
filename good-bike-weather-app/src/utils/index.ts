@@ -68,6 +68,6 @@ export const getDayData = (
     precipitation,
     temperature,
     transport,
-    date: moment({ year, month, date }).toISOString()
+    date: moment({ year, month, date }).toISOString(),
   }
 }

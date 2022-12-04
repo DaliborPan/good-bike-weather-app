@@ -1,14 +1,26 @@
 import { Pagination } from '@mui/material'
-import { ColumnDef, getCoreRowModel, useReactTable, flexRender, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table'
+import {
+  ColumnDef,
+  getCoreRowModel,
+  useReactTable,
+  flexRender,
+  getPaginationRowModel,
+  getSortedRowModel,
+} from '@tanstack/react-table'
 
 interface IProps<T extends object> {
   className?: string
-  columns: ColumnDef<T, any>[],
-  data: T[],
+  columns: ColumnDef<T, any>[]
+  data: T[]
   defaultSort?: string
 }
 
-const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> = ({ className, columns, data, defaultSort }) => {
+const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> = ({
+  className,
+  columns,
+  data,
+  defaultSort,
+}) => {
   const table = useReactTable({
     columns,
     data,
@@ -18,9 +30,9 @@ const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> =
     initialState: {
       sorting: defaultSort ? [{ id: defaultSort, desc: false }] : undefined,
       pagination: {
-        pageSize: 20
-      }
-    }
+        pageSize: 20,
+      },
+    },
   })
 
   return (
@@ -34,23 +46,18 @@ const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> =
                   {header.isPlaceholder ? null : (
                     <div
                       {...{
-                        className: header.column.getCanSort()
-                          ? 'cursor-pointer select-none'
-                          : '',
+                        className: header.column.getCanSort() ? 'cursor-pointer select-none' : '',
                         onClick: header.column.getToggleSortingHandler(),
                       }}
                     >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                      {flexRender(header.column.columnDef.header, header.getContext())}
                       {{
-                        asc: <span className='ml-2 text-xs'>&#9650;</span>,
-                        desc: <span className='ml-2 text-xs'>&#9660;</span>,
+                        asc: <span className="ml-2 text-xs">&#9650;</span>,
+                        desc: <span className="ml-2 text-xs">&#9660;</span>,
                       }[header.column.getIsSorted() as string] ?? null}
-                  </div>
-                )}
-              </th>
+                    </div>
+                  )}
+                </th>
               ))}
             </tr>
           ))}
@@ -66,11 +73,7 @@ const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> =
         </tbody>
       </table>
       <div className="h-10 bg-light-green sticky bottom-0 flex justify-end items-center">
-        <Pagination
-          size={'small'}
-          count={table.getPageCount()}
-          onChange={(e, page) => table.setPageIndex(page -  1)}
-        />
+        <Pagination size={'small'} count={table.getPageCount()} onChange={(e, page) => table.setPageIndex(page - 1)} />
       </div>
     </div>
   )

@@ -1,23 +1,23 @@
 module.exports = {
   settings: {
     react: {
-      version: 'latest'
-    }
+      version: 'latest',
+    },
   },
   ignorePatterns: ['*.js'],
   env: {
     browser: true,
     es2021: true,
-    node: true
+    node: true,
   },
   extends: ['next', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 12,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
@@ -37,14 +37,14 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': [
       2,
       {
-        argsIgnorePattern: '^_'
-      }
+        argsIgnorePattern: '^_',
+      },
     ],
     'no-console': [
       2,
       {
-        allow: ['warn', 'error']
-      }
-    ]
-  }
+        allow: ['warn', 'error'],
+      },
+    ],
+  },
 }

@@ -1,9 +1,9 @@
 // TODO: Remove once functions are implemented
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { DayData } from '../types';
-import { getDayData, isNotNull } from '../utils';
-import { getBrnoBikeAccidents } from './accidents';
-import { getTemperatureAllTime, getPrecipitationAllTime } from './weather';
+import { DayData } from '../types'
+import { getDayData, isNotNull } from '../utils'
+import { getBrnoBikeAccidents } from './accidents'
+import { getTemperatureAllTime, getPrecipitationAllTime } from './weather'
 
 const flatten = <T>(arr: T[][]): T[] => {
   return ([] as T[]).concat(...arr)

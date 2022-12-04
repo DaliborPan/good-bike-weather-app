@@ -7,8 +7,8 @@ import { AppNavigation } from '../../components/AppNavigation'
 import Table from '../../components/Table'
 import { IDataFilter, Toolbar } from '../../components/Toolbar'
 import { getHistoryPageData } from '../../services/history'
-import { DayData } from '../../types';
-import _ from 'lodash';
+import { DayData } from '../../types'
+import _ from 'lodash'
 
 const columnHelper = createColumnHelper<DayData>()
 
@@ -21,17 +21,17 @@ const columns = [
   columnHelper.accessor('temperature', {
     header: 'Temperature',
     cell: (pageData) => `${pageData.getValue()} °C`,
-    sortingFn: (rowA, rowB) => rowA.original.temperature - rowB.original.temperature
+    sortingFn: (rowA, rowB) => rowA.original.temperature - rowB.original.temperature,
   }),
   columnHelper.accessor('precipitation', {
     header: 'Precipitation',
     cell: (pageData) => `${pageData.getValue()} mm`,
-    sortingFn: (rowA, rowB) => rowA.original.precipitation - rowB.original.precipitation
+    sortingFn: (rowA, rowB) => rowA.original.precipitation - rowB.original.precipitation,
   }),
   columnHelper.accessor('index', {
     header: 'Index',
     cell: (pageData) => `${pageData.getValue()}`,
-    sortingFn: (rowA, rowB) => rowA.original.index - rowB.original.index
+    sortingFn: (rowA, rowB) => rowA.original.index - rowB.original.index,
   }),
   columnHelper.accessor('transport', {
     header: 'Transport',
@@ -40,22 +40,20 @@ const columns = [
 ]
 
 const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
-  
-  const [filter, setFilter] = useState<IDataFilter | null>(null);
-  
-  const tableData = useMemo<DayData[]>(
-    () => {
-      if(!filter) return data;
-      return data
-        .filter(({year, month, day}) => moment({ year, month, day }).isAfter(filter.dateFrom))
-        .filter(({year, month, day}) => moment({ year, month, day }).isBefore(filter.dateTo))
-        .filter(({ temperature }) => _.inRange(temperature, filter.temperatureRange[0], filter.temperatureRange[1]))
-        .filter(({ precipitation }) => _.inRange(precipitation, filter.precipitationRange[0], filter.precipitationRange[1]))
-        .filter(({ index }) => _.inRange(index, filter.riskIndexRange[0], filter.riskIndexRange[1]))
-        .filter(({ transport }) => filter.transport.includes(transport))
-    },
-    [filter, data]
-  )
+  const [filter, setFilter] = useState<IDataFilter | null>(null)
+
+  const tableData = useMemo<DayData[]>(() => {
+    if (!filter) return data
+    return data
+      .filter(({ year, month, day }) => moment({ year, month, day }).isAfter(filter.dateFrom))
+      .filter(({ year, month, day }) => moment({ year, month, day }).isBefore(filter.dateTo))
+      .filter(({ temperature }) => _.inRange(temperature, filter.temperatureRange[0], filter.temperatureRange[1]))
+      .filter(({ precipitation }) =>
+        _.inRange(precipitation, filter.precipitationRange[0], filter.precipitationRange[1])
+      )
+      .filter(({ index }) => _.inRange(index, filter.riskIndexRange[0], filter.riskIndexRange[1]))
+      .filter(({ transport }) => filter.transport.includes(transport))
+  }, [filter, data])
 
   return (
     <div className="flex flex-col absolute top-0 bottom-0 left-0 right-0 app-bg items-center gap-5 pb-8">
@@ -73,7 +71,7 @@ const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
 
         <Tab.Panels className={'grow overflow-hidden'}>
           <Tab.Panel as={'div'} className={'max-h-full h-full p-3 pb-4'}>
-            <Table columns={columns} data={tableData} defaultSort={'date'}/>
+            <Table columns={columns} data={tableData} defaultSort={'date'} />
           </Tab.Panel>
           <Tab.Panel>Content 2</Tab.Panel>
         </Tab.Panels>
