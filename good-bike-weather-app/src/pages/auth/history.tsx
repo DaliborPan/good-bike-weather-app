@@ -37,6 +37,11 @@ const columns = [
     header: 'Transport',
     cell: (pageData) => `${pageData.getValue()}`,
   }),
+  columnHelper.accessor('accidents', {
+    header: 'Accidents',
+    cell: (pageData) => `${pageData.getValue()?.length || 0}`,
+    sortingFn: (rowA, rowB) => rowA.original.accidents.length - rowB.original.accidents.length,
+  }),
 ]
 
 const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
