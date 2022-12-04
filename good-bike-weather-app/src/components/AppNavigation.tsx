@@ -80,11 +80,11 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
       <div className="self-center pr-6">
         <Menu>
           <Menu.Button className="flex items-center" ref={setReferenceElement}>
-            <div className="w-11 h-11 bg-whiskey rounded-full flex justify-center items-center">
-              <span className="text-white text-2xl">{data?.user?.name?.trim().split(' ').map(name => name[0]).join('')}</span>
+            <div className="w-10 h-10 bg-whiskey rounded-full flex justify-center items-center">
+              <span className="text-white text-xl">{data?.user?.name?.trim().split(' ').map(name => name[0]).join('')}</span>
             </div>
-            <div className="text-xl mr-7 ml-3">{data?.user?.name}</div>
-            <IcoChevronRight className={`fill-whiskey w-6 rotate-90`} />
+            <div className="text-lg mr-7 ml-3">{data?.user?.name}</div>
+            <IcoChevronRight className={`fill-whiskey w-4 rotate-90`} />
           </Menu.Button>
 
           {typeof window === 'object' &&

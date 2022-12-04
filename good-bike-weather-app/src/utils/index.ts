@@ -1,6 +1,7 @@
 // TODO: Remove once functions are implemented
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import moment from 'moment'
 import {
   BrnoBikeAccidentsResponse,
   DangerIndex,
@@ -67,5 +68,6 @@ export const getDayData = (
     precipitation,
     temperature,
     transport,
+    date: moment({ year, month, date }).toISOString()
   }
 }

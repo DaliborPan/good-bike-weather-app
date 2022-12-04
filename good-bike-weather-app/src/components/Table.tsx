@@ -16,7 +16,10 @@ const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> =
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     initialState: {
-      sorting: defaultSort ? [{ id: defaultSort, desc: false }] : undefined
+      sorting: defaultSort ? [{ id: defaultSort, desc: false }] : undefined,
+      pagination: {
+        pageSize: 20
+      }
     }
   })
 
