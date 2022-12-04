@@ -7,7 +7,7 @@ const HistoryPage: NextPage<{ data: HistoryPageData[] }> = ({ data }) => {
     <div>
       <h1>History page</h1>
       <h2 className="px-10 mt-10">Initial data for this page (accidents)</h2>
-      <p className="text-xs mt-2 px-10">{JSON.stringify(data)}</p>
+      <p className="text-xs mt-2 px-10">{JSON.stringify(data[0])}</p>
     </div>
   )
 }
