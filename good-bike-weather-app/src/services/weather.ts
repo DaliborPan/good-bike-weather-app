@@ -1,15 +1,17 @@
 import axios from 'axios'
-import { WeatherPrecipitationResponse, WeatherTemperatureResponse } from '../types'
+import {
+  WEATHER_PRECIPITATION_API_BASE,
+  WEATHER_PRECIPITATION_API_KEY,
+  WEATHER_TEMPERATURE_API_BASE,
+  WEATHER_TEMPERATURE_API_KEY,
+} from '../const'
 
-const WEATHER_PRECIPITATION_API_BASE = process.env.NEXT_PUBLIC_WEATHER_API_BASE
-const WEATHER_TEMPERATURE_API_BASE = process.env.NEXT_PUBLIC_WEATHER_TEMPERATURE_API_BASE
-const WEATHER_PRECIPITATION_API_KEY = process.env.NEXT_PUBLIC_WEATHER_PRECIPITATION_API_KEY
-const WEATHER_TEMPERATURE_API_KEY = process.env.NEXT_PUBLIC_WEATHER_TEMPERATURE_API_KEY
+import { WeatherPrecipitationResponse, WeatherTemperatureResponse } from '../types'
 
 export const getPrecipitationAllTime = async (): Promise<WeatherPrecipitationResponse> => {
   const response = await axios.get(`${WEATHER_PRECIPITATION_API_BASE}precipitation?q={}`, {
     headers: {
-      'x-apikey': WEATHER_PRECIPITATION_API_KEY as string,
+      'x-apikey': WEATHER_PRECIPITATION_API_KEY,
     },
   })
   return response.data
@@ -18,7 +20,7 @@ export const getPrecipitationAllTime = async (): Promise<WeatherPrecipitationRes
 export const getTemperatureAllTime = async (): Promise<WeatherTemperatureResponse> => {
   const response = await axios.get(`${WEATHER_TEMPERATURE_API_BASE}temp-avg?q={}`, {
     headers: {
-      'x-apikey': WEATHER_TEMPERATURE_API_KEY as string,
+      'x-apikey': WEATHER_TEMPERATURE_API_KEY,
     },
   })
 

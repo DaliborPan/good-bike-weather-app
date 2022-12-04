@@ -7,10 +7,10 @@ import { AppNavigation } from '../../components/AppNavigation'
 import Table from '../../components/Table'
 import { IDataFilter, Toolbar } from '../../components/Toolbar'
 import { getHistoryPageData } from '../../services/history'
-import { HistoryPageData } from '../../types';
+import { DayData } from '../../types';
 import _ from 'lodash';
 
-const columnHelper = createColumnHelper<HistoryPageData>()
+const columnHelper = createColumnHelper<DayData>()
 
 const columns = [
   columnHelper.accessor('date', {
@@ -39,11 +39,11 @@ const columns = [
   }),
 ]
 
-const HistoryPage: NextPage<{ data: HistoryPageData[] }> = ({ data }) => {
+const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
   
   const [filter, setFilter] = useState<IDataFilter | null>(null);
   
-  const tableData = useMemo<HistoryPageData[]>(
+  const tableData = useMemo<DayData[]>(
     () => {
       if(!filter) return data;
       return data
