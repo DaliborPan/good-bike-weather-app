@@ -1,8 +1,8 @@
 import { GetStaticProps, NextPage } from 'next'
 import { getHistoryPageData } from '../../services/history'
-import { HistoryPageData } from '../../types'
+import { DayData } from '../../types'
 
-const HistoryPage: NextPage<{ data: HistoryPageData[] }> = ({ data }) => {
+const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
   return (
     <div>
       <h1>History page</h1>

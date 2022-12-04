@@ -18,13 +18,19 @@ export type Month = typeof MONTHS[number]
 export type DangerIndex = typeof DANGER_INDICES[number]
 export type Transport = typeof TRANSPORT_TYPES[number]
 
-export type HistoryPageData = {
+export type DayData = {
   year: Year
   month: Month
   day: number
-  temperature: number
-  precipitation: number
+  temperature: MetricValue
+  precipitation: MetricValue
   index: DangerIndex
   transport: Transport
   accidents: BrnoBikeAccidentsResponse
+}
+
+export type DateObject = {
+  date: number
+  month: Month
+  year: Year
 }
