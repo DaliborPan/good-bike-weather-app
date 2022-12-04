@@ -1,3 +1,5 @@
+// TODO: Remove once functions are implemented
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DayData } from '../types'
 import { getDayData, isNotNull } from '../utils'
 import { getBrnoBikeAccidents } from './accidents'
@@ -5,15 +7,6 @@ import { getTemperatureAllTime, getPrecipitationAllTime } from './weather'
 
 const flatten = <T>(arr: T[][]): T[] => {
   return ([] as T[]).concat(...arr)
-}
-
-const compareHistoryPageData = (a: DayData, b: DayData) => {
-  if (a.year < b.year) return -1
-  if (a.year > b.year) return 1
-  if (a.month < b.month) return -1
-  if (a.month > b.month) return 1
-  if (a.day < b.day) return -1
-  return 1
 }
 
 export const getHistoryPageData = async () => {
@@ -33,7 +26,6 @@ export const getHistoryPageData = async () => {
         getDayData({ date: +key, month, year }, brnoBikeAccidents, temperatureMonthData, monthPrecipitationData)
       )
       .filter(isNotNull)
-      .sort(compareHistoryPageData)
   })
 
   return flatten(data)

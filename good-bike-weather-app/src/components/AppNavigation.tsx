@@ -30,11 +30,8 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
     { link: '/auth/history', name: 'History' },
   ]
 
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement | null>(null)
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
-    null
-  )
+  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null)
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null)
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     modifiers: [
       {
@@ -47,29 +44,16 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
   })
 
   return (
-    <div
-      className={`w-full h-16 bg-light-green flex ${
-        className ? className : ''
-      }`}
-    >
+    <div className={`shrink-0 w-full h-16 bg-light-green flex ${className ? className : ''}`}>
       {/* Left side of the header */}
       <div className="grow px-2 flex items-center">
         <div className={'mr-6 h-11 w-64 relative'}>
-          <Image
-            src="/images/logo-color-transparent.png"
-            alt="Company logo"
-            layout="fill"
-            objectFit="contain"
-          />
+          <Image src="/images/logo-color-transparent.png" alt="Company logo" layout="fill" objectFit="contain" />
         </div>
 
         {navOpts.map((navOpt) => (
           <Link key={navOpt.link} href={navOpt.link}>
-            <span
-              className={`app-navigation ${
-                router.asPath === navOpt.link ? 'app-navigation--active' : ''
-              }`}
-            >
+            <span className={`app-navigation ${router.asPath === navOpt.link ? 'app-navigation--active' : ''}`}>
               {navOpt.name}
             </span>
           </Link>
@@ -80,11 +64,17 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
       <div className="self-center pr-6">
         <Menu>
           <Menu.Button className="flex items-center" ref={setReferenceElement}>
-            <div className="w-11 h-11 bg-whiskey rounded-full flex justify-center items-center">
-              <span className="text-white text-2xl">JD</span>
+            <div className="w-10 h-10 bg-whiskey rounded-full flex justify-center items-center">
+              <span className="text-white text-xl">
+                {data?.user?.name
+                  ?.trim()
+                  .split(' ')
+                  .map((name) => name[0])
+                  .join('')}
+              </span>
             </div>
-            <div className="text-xl mr-7 ml-3">{data?.user?.name}</div>
-            <IcoChevronRight className={`fill-whiskey w-6 rotate-90`} />
+            <div className="text-lg mr-7 ml-3">{data?.user?.name}</div>
+            <IcoChevronRight className={`fill-whiskey w-4 rotate-90`} />
           </Menu.Button>
 
           {typeof window === 'object' &&
@@ -99,11 +89,7 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
                 <Menu.Item as="button" className="block w-full p-2 text-left">
                   Settings
                 </Menu.Item>
-                <Menu.Item
-                  as="button"
-                  className="block w-full p-2 text-left"
-                  onClick={() => signOut()}
-                >
+                <Menu.Item as="button" className="block w-full p-2 text-left" onClick={() => signOut()}>
                   Logout
                 </Menu.Item>
               </Menu.Items>,

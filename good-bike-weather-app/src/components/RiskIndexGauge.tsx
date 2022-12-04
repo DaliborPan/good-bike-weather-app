@@ -8,11 +8,7 @@ interface IProps {
 export const RiskIndexGauge: FC<IProps> = ({ className, riskIndex }) => {
   return (
     <div className={`w-full py-2 ${className ? className : ''}`}>
-      <div
-        className={
-          'w-full bg-off-yellow rounded-md flex justify-between px-6 py-1.5 text-lg'
-        }
-      >
+      <div className={'w-full bg-off-yellow rounded-md flex justify-between px-6 py-1.5 text-lg'}>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => (
           <span
             key={index}

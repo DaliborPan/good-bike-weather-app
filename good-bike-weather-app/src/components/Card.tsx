@@ -12,14 +12,8 @@ interface IProps {
 
 export const Card: FC<IProps> = ({ className, title }) => {
   return (
-    <div
-      className={`flex flex-col items-center gap-12 pt-10 ${
-        className ? className : ''
-      }`}
-    >
-      <h1 className="uppercase text-5xl font-light text-light-green">
-        {title}
-      </h1>
+    <div className={`flex flex-col items-center gap-12 pt-10 ${className ? className : ''}`}>
+      <h1 className="uppercase text-5xl font-light text-light-green">{title}</h1>
       <div className="h-[500px] w-[320px] rounded-lg bg-light-green flex flex-col justify-between">
         <div className="relative w-full h-52">
           <Image
@@ -37,13 +31,7 @@ export const Card: FC<IProps> = ({ className, title }) => {
           toValue={'15'}
           unit={'°C'}
         />
-        <MetricVisualisation
-          ico={<IcoRain />}
-          className={'px-5'}
-          fromValue={'0'}
-          toValue={'2'}
-          unit={'mm'}
-        />
+        <MetricVisualisation ico={<IcoRain />} className={'px-5'} fromValue={'0'} toValue={'2'} unit={'mm'} />
         <p className="px-5 mt-10 mb-2">Injury risk while riding a bicycle</p>
         <RiskIndexGauge riskIndex={5} className={'px-5 mb-8'} />
       </div>

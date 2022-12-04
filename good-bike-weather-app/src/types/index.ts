@@ -27,6 +27,7 @@ export type DayData = {
   index: DangerIndex
   transport: Transport
   accidents: BrnoBikeAccidentsResponse
+  date: string
 }
 
 export type DateObject = {

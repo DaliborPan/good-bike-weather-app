@@ -16,11 +16,49 @@
   }
 
   .app-navigation {
-    @apply text-2xl px-4 mt-auto pb-2 border-b-2 border-b-transparent cursor-pointer;
+    @apply text-2xl px-4 pb-2.5 border-b-[4px] border-b-transparent cursor-pointer;
     @apply hover:app-navigation--active;
   }
 
   .app-navigation--active {
     @apply text-whiskey border-b-whiskey transition-all;
   }
+
+  .app-table {
+    @apply relative max-h-full min-h-full w-full overflow-auto p-8 pb-0 pt-0;
+  }
+
+  .app-table table {
+    @apply table-fixed w-full min-h-full max-h-full;
+  }
+
+  .app-table thead {
+    @apply sticky top-0 bg-light-green;
+  }
+
+  .app-table th {
+    @apply text-base text-whiskey font-semibold py-2.5 px-2 text-left;
+  }
+
+  .app-table tbody {
+    @apply max-h-full overflow-y-scroll;
+  }
+
+  .app-table tr {
+    @apply border-b-[1px] border-b-whiskey;
+  }
+
+  .app-table td {
+    @apply text-base py-2.5 px-2;
+  }
+}
+
+.MuiSlider-markLabel {
+  font-size: 0.6rem;
+  top: 25px !important;
+}
+
+.MuiSlider-root {
+  margin-top: -10px;
+  margin-bottom: 10px;
 }
