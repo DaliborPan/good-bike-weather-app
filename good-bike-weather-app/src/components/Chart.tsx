@@ -13,11 +13,11 @@ type Coords = {
   y: number
 }[]
 
-const useChartData = (data: DayData[], dayDataKey: keyof DayData) => {
+const useChartData = (data: DayData[], dayDataKey: Extract<keyof DayData, 'temperature' | 'precipitation'>) => {
   return useMemo<Coords>(() => {
     if (!data) return []
 
-    return data.map((d) => ({ x: moment(d.date).format('DD. MM. yyyy'), y: d[dayDataKey] as number }))
+    return data.map((d) => ({ x: moment(d.date).format('DD. MM. yyyy'), y: d[dayDataKey] }))
   }, [data, dayDataKey])
 }
 
