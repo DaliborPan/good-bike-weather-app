@@ -33,9 +33,13 @@ const filterAccidentsByDate = (
   date: number,
   year: Year
 ) => {
-  return accidentsResponse.filter(
-    ({ attributes: { den, mesic, rok } }) => den === date && mesic === month && rok === year
-  )
+  return accidentsResponse.filter(({ attributes: { datum, mesic, rok } }) => {
+    const accidentDate = new Date(0)
+
+    // field `datum` is represented as miliseconds from epocha
+    accidentDate.setMilliseconds(datum)
+    return accidentDate.getDate() === date && mesic === month && rok === year
+  })
 }
 
 export const isNotNull = <T>(obj: T | null): obj is T => {
