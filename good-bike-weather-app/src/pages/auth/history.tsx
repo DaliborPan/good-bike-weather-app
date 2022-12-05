@@ -9,6 +9,7 @@ import { IDataFilter, Toolbar } from '../../components/Toolbar'
 import { getHistoryPageData } from '../../services/history'
 import { DayData } from '../../types'
 import _ from 'lodash'
+import { Chart } from '../../components/Chart'
 
 const columnHelper = createColumnHelper<DayData>()
 
@@ -48,7 +49,7 @@ const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
   const [filter, setFilter] = useState<IDataFilter | null>(null)
 
   const tableData = useMemo<DayData[]>(() => {
-    if (!filter) return data
+    if (!filter) return []
     return data
       .filter(({ year, month, day }) => moment({ year, month, day }).isAfter(filter.dateFrom))
       .filter(({ year, month, day }) => moment({ year, month, day }).isBefore(filter.dateTo))
@@ -78,7 +79,9 @@ const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
           <Tab.Panel as={'div'} className={'max-h-full h-full p-3 pb-4'}>
             <Table columns={columns} data={tableData} defaultSort={'date'} />
           </Tab.Panel>
-          <Tab.Panel>Content 2</Tab.Panel>
+          <Tab.Panel as={'div'} className={'max-h-full h-full w-full p-3 pb-4'}>
+            <Chart data={tableData} />
+          </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
     </div>

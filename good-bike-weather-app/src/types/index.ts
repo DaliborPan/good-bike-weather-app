@@ -3,7 +3,7 @@ import { EXAMPLE_BRNO_BIKE_ACCIDENT_RESPONSE, MONTHS, YEARS, DANGER_INDICES, TRA
 export type BrnoBikeAccidentsResponse = typeof EXAMPLE_BRNO_BIKE_ACCIDENT_RESPONSE[]
 
 // Empty string if invalid date for month, eg. 30.2.2022, else number
-export type MetricValue = '' | number
+type MetricValue = '' | number
 
 export type WeatherPrecipitationResponse = ({
   [key in number]: MetricValue
