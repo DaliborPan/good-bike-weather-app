@@ -13,17 +13,17 @@ type Coords = {
   y: number
 }[]
 
-const useChartData = (data: DayData[], getFieldValue: (d: DayData) => number) => {
+const useChartData = (data: DayData[], dayDataKey: keyof DayData) => {
   return useMemo<Coords>(() => {
     if (!data) return []
 
-    return data.map((d) => ({ x: moment(d.date).format('DD. MM. yyyy'), y: getFieldValue(d) }))
-  }, [data, getFieldValue])
+    return data.map((d) => ({ x: moment(d.date).format('DD. MM. yyyy'), y: d[dayDataKey] as number }))
+  }, [data, dayDataKey])
 }
 
 export const Chart: FC<IProps> = ({ className, data }) => {
-  const tempData = useChartData(data, (d) => d.temperature)
-  const precData = useChartData(data, (d) => d.precipitation)
+  const tempData = useChartData(data, 'temperature')
+  const precData = useChartData(data, 'precipitation')
 
   return (
     <div className={`w-full min-w-full h-full ${className ? className : ''}`}>
