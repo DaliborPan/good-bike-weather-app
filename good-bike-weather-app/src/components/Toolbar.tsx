@@ -3,6 +3,7 @@ import { Slider, Box, TextField, Select, MenuItem, FormControl, InputLabel } fro
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import moment, { Moment } from 'moment'
 import useDebounce from '../hooks/useDebounce'
+import { OFFSET_YEAR } from '../const'
 
 export interface IDataFilter {
   dateFrom?: Moment
@@ -19,8 +20,8 @@ interface IProps {
 }
 
 export const Toolbar: FC<IProps> = ({ className, onChange }) => {
-  const [dateFrom, setDateFrom] = useState<Moment>(moment().subtract({ years: 30, months: 1 }))
-  const [dateTo, setDateTo] = useState<Moment>(moment().subtract({ years: 30 }).add({ weeks: 2 }))
+  const [dateFrom, setDateFrom] = useState<Moment>(moment().subtract({ years: OFFSET_YEAR, months: 1 }))
+  const [dateTo, setDateTo] = useState<Moment>(moment().subtract({ years: OFFSET_YEAR }).add({ weeks: 2 }))
   const [temperatureRange, setTemperatureRange] = useState<[number, number]>([-20, 50])
   const [precipitationRange, setPrecipitationRange] = useState<[number, number]>([0, 100])
   const [riskIndexRange, setRiskIndexRange] = useState<[number, number]>([0, 10])
