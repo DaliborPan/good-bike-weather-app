@@ -8,16 +8,22 @@ interface IProps {
   data: DayData[]
 }
 
-export const Chart: FC<IProps> = ({ className, data }) => {
-  const tempData = useMemo<{ x: string; y: number }[]>(() => {
-    if (!data) return []
-    return data.map((d) => ({ x: moment(d.date).format('DD. MM. yyyy'), y: d.temperature }))
-  }, [data])
+type Coords = {
+  x: string
+  y: number
+}[]
 
-  const precData = useMemo<{ x: string; y: number }[]>(() => {
+const useChartData = (data: DayData[], getFieldValue: (d: DayData) => number) => {
+  return useMemo<Coords>(() => {
     if (!data) return []
-    return data.map((d) => ({ x: moment(d.date).format('DD. MM. yyyy'), y: d.precipitation }))
-  }, [data])
+
+    return data.map((d) => ({ x: moment(d.date).format('DD. MM. yyyy'), y: getFieldValue(d) }))
+  }, [data, getFieldValue])
+}
+
+export const Chart: FC<IProps> = ({ className, data }) => {
+  const tempData = useChartData(data, (d) => d.temperature)
+  const precData = useChartData(data, (d) => d.precipitation)
 
   return (
     <div className={`w-full min-w-full h-full ${className ? className : ''}`}>
