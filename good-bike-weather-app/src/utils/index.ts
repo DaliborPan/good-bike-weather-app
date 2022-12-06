@@ -11,56 +11,56 @@ import {
   Year,
 } from '../types'
 
-const PRECIPITATION_RISK_INDEX_WEIGHT = 3;
+const PRECIPITATION_RISK_INDEX_WEIGHT = 3
 const TEMPERATURE_RISK_INDEX_WEIGHT = 1
-const ACCIDENTS_RISK_INDEX_WEIGHT = 2;
+const ACCIDENTS_RISK_INDEX_WEIGHT = 2
 
 const calculateIndex = (
   accidents: BrnoBikeAccidentsResponse,
   temperature: number,
   precipitation: number
 ): DangerIndex => {
-  const precIndex = calculatePrecipitationIndex(precipitation);
-  const tempIndex = calculateTemperatureIndex(temperature);
-  const accIndex = accidentsIndex(accidents.length);
+  const precIndex = calculatePrecipitationIndex(precipitation)
+  const tempIndex = calculateTemperatureIndex(temperature)
+  const accIndex = accidentsIndex(accidents.length)
 
   return riskIndexAvg([
     ...Array(TEMPERATURE_RISK_INDEX_WEIGHT).fill(tempIndex),
     ...Array(PRECIPITATION_RISK_INDEX_WEIGHT).fill(precIndex),
     ...Array(ACCIDENTS_RISK_INDEX_WEIGHT).fill(accIndex),
-  ]) as unknown as DangerIndex
+  ]) as DangerIndex
 }
 
 const calculatePrecipitationIndex = (prec: number) => {
-  if (prec <= 0) return 1;
-  if (0 < prec && prec <= 1) return 4;
-  if (1 < prec && prec <= 6) return 2 / 5 * prec + 18 / 5;
-  if (6 < prec && prec <= 10) return 3 / 4 * prec + 6 / 4;
-  return 9;
+  if (prec <= 0) return 1
+  if (prec <= 1) return 4
+  if (prec <= 6) return (2 / 5) * prec + 18 / 5
+  if (prec <= 10) return (3 / 4) * prec + 6 / 4
+  return 9
 }
 
 const calculateTemperatureIndex = (temp: number) => {
-  if (-16 < temp && temp <= -2) return -3 / 14 * temp + 90 / 14;
-  if (-2 < temp && temp <= 0) return -3 / 2 * temp + 3;
-  if (0 < temp && temp <= 4) return -1 / 4 * temp + 3;
-  if (4 < temp && temp <= 12) return -1 / 8 * temp + 5 / 2
-  if (12 < temp && temp <= 20) return 1
-  if (20 < temp && temp <= 32) return 1 / 6 * temp - 14 / 6;
-  if (32 < temp) return 1 / 9 * temp + 5 / 9;
-  return 9;
+  if (-16 < temp && temp <= -2) return (-3 / 14) * temp + 90 / 14
+  if (temp <= 0) return (-3 / 2) * temp + 3
+  if (temp <= 4) return (-1 / 4) * temp + 3
+  if (temp <= 12) return (-1 / 8) * temp + 5 / 2
+  if (temp <= 20) return 1
+  if (temp <= 32) return (1 / 6) * temp - 14 / 6
+  if (32 < temp) return (1 / 9) * temp + 5 / 9
+  return 9
 }
 
 const accidentsIndex = (accidents: number) => {
-  if (accidents <= 0) return 1;
-  if (0 < accidents && accidents <= 1) return 2;
-  if (1 < accidents && accidents <= 2) return 4;
-  if (2 < accidents && accidents <= 3) return 6;
-  if (3 < accidents && accidents <= 4) return 8;
-  return 9;
+  if (accidents <= 0) return 1
+  if (accidents <= 1) return 2
+  if (accidents <= 2) return 4
+  if (accidents <= 3) return 6
+  if (accidents <= 4) return 8
+  return 9
 }
 
 const riskIndexAvg = (input: number[]) => {
-  return Math.round(sum(input) / input.length);
+  return Math.round(sum(input) / input.length)
 }
 
 // TODO: implement
