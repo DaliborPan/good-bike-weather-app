@@ -46,7 +46,9 @@ const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> =
                   {header.isPlaceholder ? null : (
                     <div
                       {...{
-                        className: header.column.getCanSort() ? 'cursor-pointer select-none' : '',
+                        className: `flex items-center justify-center ${
+                          header.column.getCanSort() ? 'cursor-pointer select-none' : ''
+                        }`,
                         onClick: header.column.getToggleSortingHandler(),
                       }}
                     >
