@@ -18,21 +18,21 @@ const RISK_EXPLANATION: IRiskExplanation[] = [
     index: '1 - 3',
     title: 'Low risk',
     description: 'There is almost no danger. Make yourself happy and cycle twice as much today.',
-    background: 'bg-[#809c13]',
+    background: 'bg-risk-low',
   },
   {
     index: '5 - 6',
     title: 'Normal risk',
     description:
       'Be careful. Today the conditions are not exactly ideal for cycling, but if you are more careful you will still reach your destination safely.',
-    background: 'bg-[#ff9a00]',
+    background: 'bg-risk-medium',
   },
   {
     index: '7 - 9',
     title: 'High risk',
     description:
       'If you ride your bike, please contact the nearest psychiatric hospital, as it looks like you are suicidal.',
-    background: 'bg-[#a70000]',
+    background: 'bg-risk-high',
   },
 ]
 

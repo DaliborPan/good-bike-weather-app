@@ -15,9 +15,9 @@ import { RiskIndexExplanationInfo } from '../../components/RiskIndexExplanationI
 const columnHelper = createColumnHelper<DayData>()
 
 const colorMapping = (index: number) => {
-  if (index <= 3) return 'bg-[#809c13]'
-  if (index <= 6) return 'bg-[#ff9a00]'
-  return 'bg-[#a70000]'
+  if (index <= 3) return 'bg-risk-low'
+  if (index <= 6) return 'bg-risk-medium'
+  return 'bg-risk-high'
 }
 
 const columns = [

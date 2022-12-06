@@ -13,6 +13,9 @@ module.exports = {
       whiskey: '#BC6C25',
       'off-yellow': '#FEFAE0',
       transparent: '#00000000',
+      "risk-low": "#809c13",
+      "risk-medium": "#ff9a00",
+      "risk-high": "#a70000"
     },
     extend: {},
   },
