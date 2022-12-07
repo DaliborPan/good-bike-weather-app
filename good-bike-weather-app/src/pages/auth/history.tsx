@@ -10,8 +10,15 @@ import { getHistoryPageData } from '../../services/history'
 import { DayData } from '../../types'
 import _ from 'lodash'
 import { Chart } from '../../components/Chart'
+import { RiskIndexExplanationInfo } from '../../components/RiskIndexExplanationInfo'
 
 const columnHelper = createColumnHelper<DayData>()
+
+const colorMapping = (index: number) => {
+  if (index <= 3) return 'bg-risk-low'
+  if (index <= 6) return 'bg-risk-medium'
+  return 'bg-risk-high'
+}
 
 const columns = [
   columnHelper.accessor('date', {
@@ -30,8 +37,16 @@ const columns = [
     sortingFn: (rowA, rowB) => rowA.original.precipitation - rowB.original.precipitation,
   }),
   columnHelper.accessor('index', {
-    header: 'Index',
-    cell: (pageData) => `${pageData.getValue()}`,
+    header: () => (
+      <span className={'flex justify-center items-baseline gap-2'}>
+        Index <RiskIndexExplanationInfo />
+      </span>
+    ),
+    cell: (pageData) => (
+      <span
+        className={`text-white px-1.5 py-0.5 rounded-md ${colorMapping(pageData.getValue())}`}
+      >{`${pageData.getValue()}`}</span>
+    ),
     sortingFn: (rowA, rowB) => rowA.original.index - rowB.original.index,
   }),
   columnHelper.accessor('transport', {

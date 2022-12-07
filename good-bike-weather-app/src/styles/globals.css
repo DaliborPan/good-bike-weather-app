@@ -37,7 +37,7 @@
   }
 
   .app-table th {
-    @apply text-base text-whiskey font-semibold py-2.5 px-2 text-left;
+    @apply text-base text-whiskey font-semibold py-2.5 px-2 text-center;
   }
 
   .app-table tbody {
@@ -48,8 +48,12 @@
     @apply border-b-[1px] border-b-whiskey;
   }
 
+  .app-table tbody tr {
+    @apply hover:bg-[#E5E0B9];
+  }
+
   .app-table td {
-    @apply text-base py-2.5 px-2;
+    @apply text-base py-2.5 px-2 text-center;
   }
 }
 

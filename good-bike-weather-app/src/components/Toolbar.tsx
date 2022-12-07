@@ -4,6 +4,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import moment, { Moment } from 'moment'
 import useDebounce from '../hooks/useDebounce'
 import { OFFSET_YEAR } from '../const'
+import { RiskIndexExplanationInfo } from './RiskIndexExplanationInfo'
 
 export interface IDataFilter {
   dateFrom?: Moment
@@ -108,8 +109,9 @@ export const Toolbar: FC<IProps> = ({ className, onChange }) => {
       </Box>
 
       <Box className={'basis-1/8 grow px-5 h-12'}>
-        <InputLabel variant="standard" shrink>
-          Risk index
+        <InputLabel variant="standard" shrink className={'flex items-center'}>
+          <span>Risk index</span>
+          <RiskIndexExplanationInfo className="ml-2" />
         </InputLabel>
         <Slider
           value={riskIndexRange}
