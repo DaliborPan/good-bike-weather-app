@@ -13,7 +13,7 @@ interface IProps<T extends object> {
   className?: string
   columns: ColumnDef<T, any>[]
   data: T[]
-  defaultSort?: string,
+  defaultSort?: string
   onRowClick?: (row: Row<T>) => void
 }
 
@@ -22,7 +22,7 @@ const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> =
   columns,
   data,
   defaultSort,
-  onRowClick
+  onRowClick,
 }) => {
   const table = useReactTable({
     columns,
@@ -69,7 +69,13 @@ const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> =
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} onClick={() => {onRowClick && onRowClick(row)}}>
+            <tr
+              key={row.id}
+              onClick={() => {
+                onRowClick && onRowClick(row)
+              }}
+              className="cursor-pointer"
+            >
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
               ))}
