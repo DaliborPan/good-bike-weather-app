@@ -11,6 +11,7 @@ import { DayData } from '../../types'
 import _ from 'lodash'
 import { Chart } from '../../components/Chart'
 import { RiskIndexExplanationInfo } from '../../components/RiskIndexExplanationInfo'
+import { Dialog } from '../../components/Dialog'
 
 const columnHelper = createColumnHelper<DayData>()
 
@@ -62,6 +63,7 @@ const columns = [
 
 const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
   const [filter, setFilter] = useState<IDataFilter | null>(null)
+  const [entityDetail, setEntityDetail] = useState<DayData | null>(null)
 
   const tableData = useMemo<DayData[]>(() => {
     if (!filter) return []
@@ -92,13 +94,22 @@ const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
 
         <Tab.Panels className={'grow overflow-hidden'}>
           <Tab.Panel as={'div'} className={'max-h-full h-full p-3 pb-4'}>
-            <Table columns={columns} data={tableData} defaultSort={'date'} />
+            <Table
+              columns={columns}
+              data={tableData}
+              defaultSort={'date'}
+              onRowClick={(row) => setEntityDetail(row.original)}
+            />
           </Tab.Panel>
           <Tab.Panel as={'div'} className={'max-h-full h-full w-full p-3 pb-4'}>
             <Chart data={tableData} />
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
+
+      <Dialog open={!!entityDetail} onClose={() => setEntityDetail(null)} className="w-60 h-60">
+        <div>Entity detail</div>
+      </Dialog>
     </div>
   )
 }
