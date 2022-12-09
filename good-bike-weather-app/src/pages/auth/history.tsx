@@ -79,7 +79,7 @@ const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
   }, [filter, data])
 
   return (
-    <div className="flex flex-col absolute top-0 bottom-0 left-0 right-0 app-bg items-center gap-5 pb-8">
+    <div className="app-bg">
       <AppNavigation />
       <Toolbar className="w-11/12 shrink-0" onChange={setFilter} />
       <Tab.Group as="div" className={'grow flex flex-col bg-light-green rounded-lg w-11/12 overflow-hidden'}>
