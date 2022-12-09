@@ -1,19 +1,28 @@
+import { useCallback, useEffect, useState } from 'react'
+import clsx from 'clsx'
 import { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import { Form, Formik, useFormikContext } from 'formik'
+
 import { AppNavigation } from '../../components/AppNavigation'
 import AVATAR_IMAGE from '../../../public/images/avatar.png'
-import { Form, Formik, useFormikContext } from 'formik'
-import { IcoRain } from '../../components/icons/IcoRain'
 import { KeysHasValue } from '../../types'
-import clsx from 'clsx'
-import { useCallback, useEffect, useState } from 'react'
+import {
+  IcoCloudSun,
+  IcoCloud,
+  IcoRain,
+  IcoBigRain,
+  IcoTemperatureLow,
+  IcoSun,
+  IcoFloppyDisk,
+} from '../../components/icons'
 
 const LOCALSTORAGE_PREFERENCES_KEY = 'userPreferences'
 
 const TEMPERATURE_OPTIONS = [
   {
-    Icon: IcoRain,
+    Icon: IcoCloud,
     label: '< 5 mm',
   },
   {
@@ -21,25 +30,37 @@ const TEMPERATURE_OPTIONS = [
     label: '< 10 mm',
   },
   {
-    Icon: IcoRain,
+    Icon: IcoBigRain,
     label: '10+ mm',
   },
 ]
 
 const PRECIPITATION_OPTIONS = [
   {
-    Icon: IcoRain,
+    Icon: IcoTemperatureLow,
     label: '< 0 °C',
   },
   {
-    Icon: IcoRain,
+    Icon: IcoCloudSun,
     label: '< 10 °C',
   },
   {
-    Icon: IcoRain,
+    Icon: IcoSun,
     label: '10+ °C',
   },
 ]
+
+const INITIAL_VALUES = {
+  age: null,
+  temp: [false, false, false],
+  precip: [false, false, false],
+}
+
+type ProfileSettingsType = {
+  age: number | null
+  temp: boolean[]
+  precip: boolean[]
+}
 
 const AgeInput: React.FC = () => {
   const {
@@ -73,7 +94,7 @@ const MotivationText = () => (
   </p>
 )
 
-const Avatar: React.FC = () => {
+const Avatar = () => {
   const { data } = useSession()
 
   const name = data?.user?.name
@@ -95,15 +116,14 @@ const Avatar: React.FC = () => {
 type WeatherOptionsGroupProps = {
   options: typeof TEMPERATURE_OPTIONS
   name: KeysHasValue<ProfileSettingsType, boolean[]>
-  extraClasses?: string
 }
 
-const WeatherOptionsGroup: React.FC<WeatherOptionsGroupProps> = ({ options, name, extraClasses = '' }) => {
+const WeatherOptionsGroup: React.FC<WeatherOptionsGroupProps> = ({ options, name }) => {
   const { values, setFieldValue } = useFormikContext<ProfileSettingsType>()
 
   return (
     <div>
-      <div className={clsx('w-full grid grid-cols-3 gap-x-4', extraClasses)}>
+      <div className="w-full grid grid-cols-3 gap-x-4">
         {options.map((option, i) => (
           <WeatherOptionButton
             {...option}
@@ -137,26 +157,21 @@ const WeatherOptionButton: React.FC<WeatherOptionButtonProps> = ({ Icon, label, 
     onClick={onClick}
   >
     {active && <div className="absolute top-2 right-2 h-4 w-4 rounded-full bg-whiskey" />}
-    <div className="w-10 pt-1">
-      <Icon />
-    </div>
+    <Icon height={52} className="p-1" />
     <span>{label}</span>
   </button>
 )
 
 const SavePreferencesButton = () => (
   <div className="flex justify-end">
-    <button className="flex items-center justify-center space-x-6 bg-green rounded py-3 px-6 hover:shadow-lg">
-      {/* Save Icon */}
-      <div className="w-8">
-        <IcoRain />
-      </div>
+    <button className="flex items-center justify-center space-x-6 bg-green rounded py-3 px-6 shadow-lg hover:shadow-xl">
+      <IcoFloppyDisk height={30} fill="#FEFAE0" />
       <span className="text-lg text-off-yellow">Save your preferences</span>
     </button>
   </div>
 )
 
-const PreferencesSelection: React.FC = () => (
+const PreferencesSelection = () => (
   <>
     <div className="grow flex flex-col space-y-6 2xl:space-y-8 pt-6 2xl:pt-12">
       <WeatherOptionsGroup options={TEMPERATURE_OPTIONS} name="temp" />
@@ -165,18 +180,6 @@ const PreferencesSelection: React.FC = () => (
     <SavePreferencesButton />
   </>
 )
-
-type ProfileSettingsType = {
-  age: number | null
-  temp: boolean[]
-  precip: boolean[]
-}
-
-const INITIAL_VALUES = {
-  age: null,
-  temp: [false, false, false],
-  precip: [false, false, false],
-}
 
 const useLocalstoragePreferences = () => {
   const [localstorageValues, setLocalstorageValues] = useState<ProfileSettingsType | undefined>(undefined)

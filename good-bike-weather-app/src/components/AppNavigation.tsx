@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Menu } from '@headlessui/react'
 import { usePopper } from 'react-popper'
 import { createPortal } from 'react-dom'
-import { IcoChevronRight } from './icons/IcoChevronRight'
+import { IcoChevronRight } from './icons'
 import { signOut, useSession } from 'next-auth/react'
 
 interface IProps {

@@ -1,6 +1,6 @@
 import { Tooltip } from '@mui/material'
 import { FC } from 'react'
-import { IcoInfo } from './icons/IcoInfo'
+import { IcoInfo } from './icons'
 
 interface IProps {
   className?: string

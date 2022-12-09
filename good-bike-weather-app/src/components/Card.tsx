@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { FC } from 'react'
-import { IcoRain } from './icons/IcoRain'
-import { IcoTemperature } from './icons/IcoTemperature'
+import { IcoRain, IcoTemperature } from './icons'
 import { MetricVisualisation } from './MetricVisualisation'
 import { RiskIndexGauge } from './RiskIndexGauge'
 
