@@ -11,7 +11,7 @@ import { DayData } from '../../types'
 import _ from 'lodash'
 import { Chart } from '../../components/Chart'
 import { RiskIndexExplanationInfo } from '../../components/RiskIndexExplanationInfo'
-import { Dialog } from '../../components/Dialog'
+import { EntityDetail } from '../../components/EntityDetail'
 
 const columnHelper = createColumnHelper<DayData>()
 
@@ -107,9 +107,7 @@ const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
         </Tab.Panels>
       </Tab.Group>
 
-      <Dialog open={!!entityDetail} onClose={() => setEntityDetail(null)} className="w-60 h-60">
-        <div>Entity detail</div>
-      </Dialog>
+      <EntityDetail open={!!entityDetail} onClose={() => setEntityDetail(null)} dayData={entityDetail} />
     </div>
   )
 }
