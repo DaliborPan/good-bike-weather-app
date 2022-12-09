@@ -43,6 +43,11 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
     ],
   })
 
+  const onSignOut = () => {
+    localStorage.removeItem('userPreferences')
+    signOut()
+  }
+
   return (
     <div className={`shrink-0 w-full h-16 bg-light-green flex ${className ? className : ''}`}>
       {/* Left side of the header */}
@@ -91,7 +96,7 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
                     <span>Settings</span>
                   </Link>
                 </Menu.Item>
-                <Menu.Item as="button" className="block w-full p-2 text-left" onClick={() => signOut()}>
+                <Menu.Item as="button" className="block w-full p-2 text-left" onClick={onSignOut}>
                   Logout
                 </Menu.Item>
               </Menu.Items>,
