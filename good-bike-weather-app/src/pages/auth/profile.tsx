@@ -7,6 +7,9 @@ import { Form, Formik, useFormikContext } from 'formik'
 import { IcoRain } from '../../components/icons/IcoRain'
 import { KeysHasValue } from '../../types'
 import clsx from 'clsx'
+import { useCallback, useEffect, useState } from 'react'
+
+const LOCALSTORAGE_PREFERENCES_KEY = 'userPreferences'
 
 const TEMPERATURE_OPTIONS = [
   {
@@ -39,7 +42,10 @@ const PRECIPITATION_OPTIONS = [
 ]
 
 const AgeInput: React.FC = () => {
-  const { setFieldValue } = useFormikContext<ProfileSettingsType>()
+  const {
+    setFieldValue,
+    values: { age },
+  } = useFormikContext<ProfileSettingsType>()
 
   return (
     <div className="relative">
@@ -52,6 +58,7 @@ const AgeInput: React.FC = () => {
         className="text-right pr-4 py-1.5 text-2xl bg-off-yellow text-whiskey rounded-lg focus-within:outline-none focus-within:ring-1 focus-within:ring-whiskey"
         type="number"
         onChange={(e) => setFieldValue('age', +e.target.value)}
+        value={age ? (age as number) : ''}
       />
     </div>
   )
@@ -66,12 +73,6 @@ const MotivationText = () => (
   </p>
 )
 
-// Store in localstorage
-// - useAvatar: boolean
-// - tempPreferences: (0 | 1 | 2)[]
-// - precipPreferences: (0 | 1 | 2)[]
-// - age: number
-
 const Avatar: React.FC = () => {
   const { data } = useSession()
 
@@ -79,12 +80,10 @@ const Avatar: React.FC = () => {
 
   return (
     <div className="flex space-x-12">
-      {/* Image */}
       <div className="h-40 w-40 rounded-full bg-champagne/40">
         <Image height={180} src={AVATAR_IMAGE} alt="" className="-mt-4" />
       </div>
 
-      {/* Name + age */}
       <div className="flex flex-col justify-between py-2">
         <h2 className="text-4xl text-whiskey font-bold">{name}</h2>
         <AgeInput />
@@ -95,7 +94,7 @@ const Avatar: React.FC = () => {
 
 type WeatherOptionsGroupProps = {
   options: typeof TEMPERATURE_OPTIONS
-  name: KeysHasValue<ProfileSettingsType, [boolean, boolean, boolean]>
+  name: KeysHasValue<ProfileSettingsType, boolean[]>
   extraClasses?: string
 }
 
@@ -145,36 +144,32 @@ const WeatherOptionButton: React.FC<WeatherOptionButtonProps> = ({ Icon, label, 
   </button>
 )
 
-const SavePreferencesButton = () => {
-  return (
-    <div className="flex justify-end">
-      <button className="flex items-center justify-center space-x-6 bg-green rounded py-3 px-6 hover:shadow-lg">
-        {/* Save Icon */}
-        <div className="w-8">
-          <IcoRain />
-        </div>
-        <span className="text-lg text-off-yellow">Save your preferences</span>
-      </button>
-    </div>
-  )
-}
-
-const PreferencesSelection: React.FC = () => {
-  return (
-    <>
-      <div className="grow flex flex-col space-y-6 2xl:space-y-8 pt-6 2xl:pt-12">
-        <WeatherOptionsGroup options={TEMPERATURE_OPTIONS} name="temp" />
-        <WeatherOptionsGroup options={PRECIPITATION_OPTIONS} name="precip" />
+const SavePreferencesButton = () => (
+  <div className="flex justify-end">
+    <button className="flex items-center justify-center space-x-6 bg-green rounded py-3 px-6 hover:shadow-lg">
+      {/* Save Icon */}
+      <div className="w-8">
+        <IcoRain />
       </div>
-      <SavePreferencesButton />
-    </>
-  )
-}
+      <span className="text-lg text-off-yellow">Save your preferences</span>
+    </button>
+  </div>
+)
+
+const PreferencesSelection: React.FC = () => (
+  <>
+    <div className="grow flex flex-col space-y-6 2xl:space-y-8 pt-6 2xl:pt-12">
+      <WeatherOptionsGroup options={TEMPERATURE_OPTIONS} name="temp" />
+      <WeatherOptionsGroup options={PRECIPITATION_OPTIONS} name="precip" />
+    </div>
+    <SavePreferencesButton />
+  </>
+)
 
 type ProfileSettingsType = {
   age: number | null
-  temp: [boolean, boolean, boolean]
-  precip: [boolean, boolean, boolean]
+  temp: boolean[]
+  precip: boolean[]
 }
 
 const INITIAL_VALUES = {
@@ -183,22 +178,34 @@ const INITIAL_VALUES = {
   precip: [false, false, false],
 }
 
+const useLocalstoragePreferences = () => {
+  const [localstorageValues, setLocalstorageValues] = useState<ProfileSettingsType | undefined>(undefined)
+
+  useEffect(() => {
+    const foundValues: string | null = localStorage.getItem(LOCALSTORAGE_PREFERENCES_KEY)
+    if (foundValues) setLocalstorageValues(JSON.parse(foundValues) as ProfileSettingsType)
+  }, [])
+
+  return [localstorageValues, setLocalstorageValues] as const
+}
+
 const ProfilePage: NextPage = () => {
-  // TODO: Initial state from localstorage
-  const localstorageValues: ProfileSettingsType | undefined = undefined
+  const [localstorageValues, setLocalstorageValues] = useLocalstoragePreferences()
+
+  const onFormSubmit = useCallback(
+    (values: ProfileSettingsType) => {
+      setLocalstorageValues(values)
+      localStorage.setItem(LOCALSTORAGE_PREFERENCES_KEY, JSON.stringify(values))
+    },
+    [setLocalstorageValues]
+  )
 
   return (
     <div className="app-bg">
       <AppNavigation />
       <h1 className="flex w-1/2 text-light-green text-4xl font-extralight pt-8">Your profile & settings</h1>
 
-      <Formik
-        initialValues={localstorageValues ?? INITIAL_VALUES}
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        onSubmit={(values) => {
-          return undefined
-        }}
-      >
+      <Formik initialValues={localstorageValues ?? INITIAL_VALUES} onSubmit={onFormSubmit} enableReinitialize>
         <Form className="flex flex-col bg-light-green w-11/12 xl:w-3/4 rounded-lg p-12 mb-8 h-full">
           <div className="flex justify-center h-full space-x-20">
             <div className="flex flex-col space-y-16 h-full w-1/2">
