@@ -7,6 +7,7 @@ import { MetricVisualisation } from './MetricVisualisation'
 import { IcoTemperature } from './icons/IcoTemperature'
 import { DayData } from '../types'
 import { RiskIndexExplanationInfo } from './RiskIndexExplanationInfo'
+import moment from 'moment'
 
 interface IProps {
   className?: string
@@ -56,7 +57,7 @@ export const EntityDetail: FC<IProps> = ({ className, open, onClose, dayData }) 
 
         {/* /* RIGHT PART */}
         <div className="flex flex-col grow items-center justify-around">
-          <h1 className="text-2xl mt-4">3rd October 2012</h1>
+          <h1 className="text-2xl mt-4">{dayData ? moment(dayData?.date).format('LL') : ''}</h1>
           <div className="w-11/12 flex justify-around">
             <MetricVisualisation
               ico={<IcoTemperature />}
