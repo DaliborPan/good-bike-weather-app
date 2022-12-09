@@ -87,7 +87,9 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
                 className="w-56 bg-whiskey rounded-lg divide-y px-4 py-2 text-white divide-y-white text-lg"
               >
                 <Menu.Item as="button" className="block w-full p-2 text-left">
-                  Settings
+                  <Link href="/auth/profile">
+                    <span>Settings</span>
+                  </Link>
                 </Menu.Item>
                 <Menu.Item as="button" className="block w-full p-2 text-left" onClick={() => signOut()}>
                   Logout
