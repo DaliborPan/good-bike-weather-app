@@ -5,7 +5,7 @@ import { Tab } from '@headlessui/react'
 
 const History: NextPage = () => {
   return (
-    <div className="flex flex-col absolute top-0 bottom-0 left-0 right-0 app-bg items-center gap-5 pb-8">
+    <div className="app-bg">
       <AppNavigation />
       <h1 className="uppercase text-4xl font-light text-light-green w-11/12 text-left">History</h1>
       <Toolbar className="w-11/12" />

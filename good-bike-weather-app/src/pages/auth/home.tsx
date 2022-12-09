@@ -10,7 +10,7 @@ const Home: NextPage = () => {
   console.log(data)
 
   return (
-    <div className="flex flex-col absolute top-0 bottom-0 left-0 right-0 app-bg">
+    <div className="app-bg">
       <AppNavigation />
 
       <Card title={'Yesterday'} className="absolute top-1/2 left-[20%] -translate-x-1/2 -translate-y-[45%] scale-75" />

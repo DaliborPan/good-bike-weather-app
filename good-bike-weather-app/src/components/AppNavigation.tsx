@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Menu } from '@headlessui/react'
 import { usePopper } from 'react-popper'
 import { createPortal } from 'react-dom'
-import { IcoChevronRight } from './icons/IcoChevronRight'
+import { IcoChevronRight } from './icons'
 import { signOut, useSession } from 'next-auth/react'
 
 interface IProps {
@@ -42,6 +42,11 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
       },
     ],
   })
+
+  const onSignOut = () => {
+    localStorage.removeItem('userPreferences')
+    signOut()
+  }
 
   return (
     <div className={`shrink-0 w-full h-16 bg-light-green flex ${className ? className : ''}`}>
@@ -87,9 +92,11 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
                 className="w-56 bg-whiskey rounded-lg divide-y px-4 py-2 text-white divide-y-white text-lg"
               >
                 <Menu.Item as="button" className="block w-full p-2 text-left">
-                  Settings
+                  <Link href="/auth/profile">
+                    <span>Settings</span>
+                  </Link>
                 </Menu.Item>
-                <Menu.Item as="button" className="block w-full p-2 text-left" onClick={() => signOut()}>
+                <Menu.Item as="button" className="block w-full p-2 text-left" onClick={onSignOut}>
                   Logout
                 </Menu.Item>
               </Menu.Items>,

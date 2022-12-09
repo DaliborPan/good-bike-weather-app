@@ -3,10 +3,16 @@
 @tailwind utilities;
 
 @layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
 
 @layer components {
   .app-bg {
+    @apply flex flex-col absolute inset-0 gap-5 pb-8 items-center;
   }
 
   .app-bg:before {
