@@ -4,6 +4,39 @@ import Image from 'next/image'
 import { AppNavigation } from '../../components/AppNavigation'
 import AVATAR_IMAGE from '../../../public/images/avatar.png'
 import { Form, Formik, useFormikContext } from 'formik'
+import { IcoRain } from '../../components/icons/IcoRain'
+import { KeysHasValue } from '../../types'
+import clsx from 'clsx'
+
+const TEMPERATURE_OPTIONS = [
+  {
+    Icon: IcoRain,
+    label: '< 5 mm',
+  },
+  {
+    Icon: IcoRain,
+    label: '< 10 mm',
+  },
+  {
+    Icon: IcoRain,
+    label: '10+ mm',
+  },
+]
+
+const PRECIPITATION_OPTIONS = [
+  {
+    Icon: IcoRain,
+    label: '< 0 °C',
+  },
+  {
+    Icon: IcoRain,
+    label: '< 10 °C',
+  },
+  {
+    Icon: IcoRain,
+    label: '10+ °C',
+  },
+]
 
 const AgeInput: React.FC = () => {
   const { setFieldValue } = useFormikContext<ProfileSettingsType>()
@@ -24,16 +57,14 @@ const AgeInput: React.FC = () => {
   )
 }
 
-const MotivationText = () => {
-  return (
-    <p className="p-10 bg-champagne/40 text-dark-green rounded-lg shadow-md">
-      If you provide us with your preferences, we can tailor the forecast to your needs. By keeping your preferences in
-      mind, we can ensure that the forecast is as accurate and relevant as possible for you. This will help you stay up
-      to date and prepared for whatever the weather may bring. So go ahead and submit your preferences to us today, and
-      let us help you stay one step ahead of the forecast.
-    </p>
-  )
-}
+const MotivationText = () => (
+  <p className="p-10 bg-champagne/40 text-dark-green rounded-lg shadow-md">
+    If you provide us with your preferences, we can tailor the forecast to your needs. By keeping your preferences in
+    mind, we can ensure that the forecast is as accurate and relevant as possible for you. This will help you stay up to
+    date and prepared for whatever the weather may bring. So go ahead and submit your preferences to us today, and let
+    us help you stay one step ahead of the forecast.
+  </p>
+)
 
 // Store in localstorage
 // - useAvatar: boolean
@@ -59,6 +90,84 @@ const Avatar: React.FC = () => {
         <AgeInput />
       </div>
     </div>
+  )
+}
+
+type WeatherOptionsGroupProps = {
+  options: typeof TEMPERATURE_OPTIONS
+  name: KeysHasValue<ProfileSettingsType, [boolean, boolean, boolean]>
+  extraClasses?: string
+}
+
+const WeatherOptionsGroup: React.FC<WeatherOptionsGroupProps> = ({ options, name, extraClasses = '' }) => {
+  const { values, setFieldValue } = useFormikContext<ProfileSettingsType>()
+
+  return (
+    <div>
+      <div className={clsx('w-full grid grid-cols-3 gap-x-4', extraClasses)}>
+        {options.map((option, i) => (
+          <WeatherOptionButton
+            {...option}
+            key={`${name}-${i}`}
+            active={values[name][i]}
+            onClick={() =>
+              setFieldValue(
+                name,
+                values[name].map((v, index) => (index === i ? !v : v))
+              )
+            }
+          />
+        ))}
+      </div>
+      <div className="text-whiskey font-extralight text-xs pt-2">You can select multiple options</div>
+    </div>
+  )
+}
+
+type WeatherOptionButtonProps = typeof TEMPERATURE_OPTIONS[0] & {
+  active: boolean
+  onClick: () => void
+}
+
+const WeatherOptionButton: React.FC<WeatherOptionButtonProps> = ({ Icon, label, active, onClick }) => (
+  <button
+    className={clsx(
+      'flex flex-col items-center justify-between py-3 bg-off-yellow rounded-lg text-2xl whitespace-nowrap aspect-square relative',
+      active && 'ring ring-whiskey'
+    )}
+    onClick={onClick}
+  >
+    {active && <div className="absolute top-2 right-2 h-4 w-4 rounded-full bg-whiskey" />}
+    <div className="w-10 pt-1">
+      <Icon />
+    </div>
+    <span>{label}</span>
+  </button>
+)
+
+const SavePreferencesButton = () => {
+  return (
+    <div className="flex justify-end">
+      <button className="flex items-center justify-center space-x-6 bg-green rounded py-3 px-6 hover:shadow-lg">
+        {/* Save Icon */}
+        <div className="w-8">
+          <IcoRain />
+        </div>
+        <span className="text-lg text-off-yellow">Save your preferences</span>
+      </button>
+    </div>
+  )
+}
+
+const PreferencesSelection: React.FC = () => {
+  return (
+    <>
+      <div className="grow flex flex-col space-y-6 2xl:space-y-8 pt-6 2xl:pt-12">
+        <WeatherOptionsGroup options={TEMPERATURE_OPTIONS} name="temp" />
+        <WeatherOptionsGroup options={PRECIPITATION_OPTIONS} name="precip" />
+      </div>
+      <SavePreferencesButton />
+    </>
   )
 }
 
@@ -90,17 +199,15 @@ const ProfilePage: NextPage = () => {
           return undefined
         }}
       >
-        <Form className="grow flex flex-col bg-light-green rounded-lg w-11/12 overflow-hidden p-12 mb-8 h-full">
-          <div className="flex h-full justify-between">
+        <Form className="flex flex-col bg-light-green w-11/12 xl:w-3/4 rounded-lg p-12 mb-8 h-full">
+          <div className="flex justify-center h-full space-x-20">
             <div className="flex flex-col space-y-16 h-full w-1/2">
               <Avatar />
               <MotivationText />
             </div>
-            <div className="flex flex-col">
-              <h3>heading</h3>
-              <div>temps</div>
-              <div className="grow">precips</div>
-              <button>submit btn</button>
+            <div className="flex flex-col py-2">
+              <h3 className="text-3xl text-green font-semibold">{"I love to ride a bike, when it's..."}</h3>
+              <PreferencesSelection />
             </div>
           </div>
         </Form>

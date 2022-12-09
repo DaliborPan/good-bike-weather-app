@@ -35,3 +35,7 @@ export type DateObject = {
   month: Month
   year: Year
 }
+
+export type KeysHasValue<T, ValueType> = {
+  [K in keyof T]-?: T[K] extends ValueType ? K : never
+}[keyof T]
