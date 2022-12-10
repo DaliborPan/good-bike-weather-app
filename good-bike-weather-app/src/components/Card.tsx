@@ -1,38 +1,42 @@
-import Image from 'next/image'
+import clsx from 'clsx'
 import { FC } from 'react'
+
 import { IcoRain, IcoTemperature } from './icons'
 import { MetricVisualisation } from './MetricVisualisation'
 import { RiskIndexGauge } from './RiskIndexGauge'
+import { TransportImage } from './TransportImage'
 
-interface IProps {
+import { DayData } from '../types'
+import { useUserTransportType } from '../hooks/useUserTransportType'
+import { getPrecipitationRange } from '../utils'
+
+interface IProps extends DayData {
   title: string
   className?: string
+  titleColor?: string // tailwind's text-*
 }
 
-export const Card: FC<IProps> = ({ className, title }) => {
+export const Card: FC<IProps> = ({ className, title, titleColor = 'text-light-green', ...dayData }) => {
+  const [fromPrecip, toPrecip] = getPrecipitationRange(dayData.precipitation)
+
+  const transportType = useUserTransportType(dayData)
+
   return (
-    <div className={`flex flex-col items-center gap-12 pt-10 ${className ? className : ''}`}>
-      <h1 className="uppercase text-5xl font-light text-light-green">{title}</h1>
-      <div className="h-[500px] w-[320px] rounded-lg bg-light-green flex flex-col justify-between">
-        <div className="relative w-full h-52">
-          <Image
-            src="/images/bicycle.png"
-            layout="fill"
-            objectFit="cover"
-            alt={'Bicycle image'}
-            className="rounded-tl-lg rounded-tr-lg"
-          />
-        </div>
+    <div className={clsx(`flex flex-col items-center gap-12 pt-10`, className)}>
+      <h1 className={clsx('uppercase text-5xl font-light', titleColor)}>{title}</h1>
+
+      <div className="h-[500px] w-[320px] rounded-lg bg-light-green flex flex-col justify-between shadow-lg">
+        <TransportImage type={transportType} />
         <MetricVisualisation
-          ico={<IcoTemperature />}
+          Icon={IcoTemperature}
           className={'px-5 mt-6'}
-          fromValue={'10'}
-          toValue={'15'}
+          fromValue={(dayData.temperature - 1).toFixed(1)}
+          toValue={(dayData.temperature + 1).toFixed(1)}
           unit={'°C'}
         />
-        <MetricVisualisation ico={<IcoRain />} className={'px-5'} fromValue={'0'} toValue={'2'} unit={'mm'} />
+        <MetricVisualisation Icon={IcoRain} className={'px-5'} fromValue={fromPrecip} toValue={toPrecip} unit={'mm'} />
         <p className="px-5 mt-10 mb-2">Injury risk while riding a bicycle</p>
-        <RiskIndexGauge riskIndex={5} className={'px-5 mb-8'} />
+        <RiskIndexGauge riskIndex={dayData.index} className={'px-5 mb-8'} />
       </div>
     </div>
   )

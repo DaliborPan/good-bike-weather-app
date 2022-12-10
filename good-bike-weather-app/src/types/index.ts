@@ -39,3 +39,9 @@ export type DateObject = {
 export type KeysHasValue<T, ValueType> = {
   [K in keyof T]-?: T[K] extends ValueType ? K : never
 }[keyof T]
+
+export type ProfileSettingsType = {
+  age: number | null
+  temp: boolean[]
+  precip: boolean[]
+}

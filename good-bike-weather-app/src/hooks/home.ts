@@ -48,23 +48,37 @@ const getPrecipitation = async (year: number): Promise<WeatherPrecipitationRespo
   return response.data
 }
 
+const fetchWeatherDifferentYear = async (year: Year) => {
+  return Promise.all([getTemperature(year), getPrecipitation(year)])
+}
+
 const getHomeData = async (): Promise<DayData[]> => {
   const now = new Date()
-  const year = now.getFullYear() - OFFSET_YEAR
+  const year = getDateObject(now).year
 
-  const [brnoBikeAccidents, temperatureResponse, precipitationResponse] = await Promise.all([
+  const [brnoBikeAccidents, ...weatherToday] = await Promise.all([
     getBrnoBikeAccidents(),
     getTemperature(year),
     getPrecipitation(year),
   ])
 
+  const [yesterday, today, tomorrow] = getDates()
+
+  const weatherYesterday =
+    yesterday.year !== today.year ? weatherToday : await fetchWeatherDifferentYear(yesterday.year)
+
+  const weatherTomorrow = tomorrow.year !== today.year ? weatherToday : await fetchWeatherDifferentYear(tomorrow.year)
+
+  const weathers = [weatherYesterday, weatherToday, weatherTomorrow]
+
   return getDates()
-    .map((dateObject) =>
+    .map((dateObject, i) => ({ ...dateObject, weather: weathers[i] }))
+    .map(({ weather: [dateTemperatureResponse, datePrecipitationResponse], ...dateObject }) =>
       getDayData(
         dateObject,
         brnoBikeAccidents,
-        temperatureResponse[dateObject.month],
-        precipitationResponse[dateObject.month]
+        dateTemperatureResponse[dateObject.month],
+        datePrecipitationResponse[dateObject.month]
       )
     )
     .filter(isNotNull)

@@ -1,15 +1,17 @@
 import { FC } from 'react'
+import { DANGER_INDICES } from '../const'
+import { DangerIndex } from '../types'
 
 interface IProps {
   className?: string
-  riskIndex: number
+  riskIndex: DangerIndex
 }
 
 export const RiskIndexGauge: FC<IProps> = ({ className, riskIndex }) => {
   return (
     <div className={`w-full py-2 ${className ? className : ''}`}>
       <div className={'w-full bg-off-yellow rounded-md flex justify-between px-6 py-1.5 text-lg'}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => (
+        {DANGER_INDICES.map((index) => (
           <span
             key={index}
             className={`relative ${

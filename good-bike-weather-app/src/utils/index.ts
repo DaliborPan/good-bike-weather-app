@@ -117,3 +117,12 @@ export const getDayData = (
     date: moment({ year, month, date }).toISOString(),
   }
 }
+
+export const getPrecipitationRange = (precipitation: number) => {
+  if (precipitation === 0) return [0, 0]
+  if (precipitation < 2) return [0, 2]
+  if (precipitation < 5) return [2, 5]
+  if (precipitation < 10) return [5, 10]
+  if (precipitation < 30) return [10, 30]
+  return [30, 100]
+}

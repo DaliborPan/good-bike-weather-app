@@ -1,24 +1,34 @@
-import { cloneElement, FC } from 'react'
+import clsx from 'clsx'
+import { FC, SVGProps } from 'react'
 
 interface IProps {
   className?: string
-  ico: JSX.Element
+  Icon: FC<SVGProps<SVGSVGElement>>
   fromValue: string | number
   toValue?: string | number
   unit: string
 }
 
-export const MetricVisualisation: FC<IProps> = ({ className, ico, toValue, fromValue, unit }) => {
+export const MetricVisualisation: FC<IProps> = ({ className, Icon, toValue, fromValue, unit }) => {
+  const hasToValue = toValue !== undefined
+
   return (
-    <div className={`flex my-2 items-center${className ? className : ''}`}>
-      <div className="basis-10 mr-3">{cloneElement(ico, { className: 'fill-black h-6 mx-auto' })}</div>
-      <div className={'basis-20'}></div>
-      <div className={'bg-off-yellow py-1 px-2 rounded-lg basis-24 flex justify-center item-baseline text-lg'}>
-        <span>{fromValue}</span>
-        {!!toValue && <span className={'mx-2 opacity-30'}>-</span>}
-        {!!toValue && <span>{toValue}</span>}
+    <div className={`flex items-center mx-4 my-2 ${className ? className : ''}`}>
+      <div className="w-1/3 mr-3 flex items-center">
+        <Icon fill="black" className="h-6" />
       </div>
-      <span className={'text-lg ml-2'}>{unit}</span>
+      <div className="grow flex items-center">
+        <div className={'bg-off-yellow flex items-center justify-center py-1 rounded-lg text-lg w-2/3'}>
+          <span className={clsx(!hasToValue && 'px-4')}>{fromValue}</span>
+          {hasToValue && (
+            <>
+              <span className={'mx-2 opacity-30'}>{+toValue === 0 ? ' ' : '-'}</span>
+              <span>{+toValue === 0 ? '😍' : toValue}</span>
+            </>
+          )}
+        </div>
+        <span className={'text-lg ml-2'}>{unit}</span>
+      </div>
     </div>
   )
 }

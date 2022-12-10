@@ -4,7 +4,9 @@ import { Card } from '../../components/Card'
 import { useHomeData } from '../../hooks/home'
 
 const Home: NextPage = () => {
-  const { data } = useHomeData()
+  const { data, isLoading } = useHomeData()
+
+  // TOOD: some logic to determine correct transport type
 
   // eslint-disable-next-line no-console
   console.log(data)
@@ -13,11 +15,30 @@ const Home: NextPage = () => {
     <div className="app-bg">
       <AppNavigation />
 
-      <Card title={'Yesterday'} className="absolute top-1/2 left-[20%] -translate-x-1/2 -translate-y-[45%] scale-75" />
+      {isLoading && <div>Loading</div>}
 
-      <Card title={'Today'} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%]" />
+      {data && (
+        <>
+          <Card
+            {...data[0]}
+            title={'Yesterday'}
+            className="absolute top-1/2 left-[20%] -translate-x-1/2 -translate-y-[45%] scale-75"
+          />
 
-      <Card title={'Tomorrow'} className="absolute top-1/2 left-[80%] -translate-x-1/2 -translate-y-[45%] scale-75" />
+          <Card
+            {...data[1]}
+            title={'Today'}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[50%]"
+          />
+
+          <Card
+            {...data[2]}
+            title={'Tomorrow'}
+            titleColor="text-green"
+            className="absolute top-1/2 left-[80%] -translate-x-1/2 -translate-y-[45%] scale-75"
+          />
+        </>
+      )}
     </div>
   )
 }
