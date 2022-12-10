@@ -64,11 +64,8 @@ const riskIndexAvg = (input: number[]) => {
   return Math.round(sum(input) / input.length)
 }
 
-// TODO: implement
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const determineTransportType = (temperature: number, precipitation: number): Transport => {
-  return getDefaultTransport({ temperature, precipitation })
-}
+const determineTransportType = (temperature: number, precipitation: number): Transport =>
+  getDefaultTransport({ temperature, precipitation })
 
 const filterAccidentsByDate = (
   accidentsResponse: BrnoBikeAccidentsResponse,
