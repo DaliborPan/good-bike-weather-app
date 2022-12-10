@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import clsx from 'clsx'
 import { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
@@ -7,7 +7,7 @@ import { Form, Formik, useFormikContext } from 'formik'
 
 import { AppNavigation } from '../../components/AppNavigation'
 import AVATAR_IMAGE from '../../../public/images/avatar.png'
-import { KeysHasValue } from '../../types'
+import { KeysHasValue, ProfileSettingsType } from '../../types'
 import {
   IcoCloudSun,
   IcoCloud,
@@ -17,10 +17,9 @@ import {
   IcoSun,
   IcoFloppyDisk,
 } from '../../components/icons'
+import { LOCALSTORAGE_PREFERENCES_KEY, useLocalstoragePreferences } from '../../hooks/useLocalstoragePreferences'
 
-const LOCALSTORAGE_PREFERENCES_KEY = 'userPreferences'
-
-const TEMPERATURE_OPTIONS = [
+const PRECIPITATION_OPTIONS = [
   {
     Icon: IcoCloud,
     label: '< 5 mm',
@@ -35,7 +34,7 @@ const TEMPERATURE_OPTIONS = [
   },
 ]
 
-const PRECIPITATION_OPTIONS = [
+const TEMPERATURE_OPTIONS = [
   {
     Icon: IcoTemperatureLow,
     label: '< 0 °C',
@@ -54,12 +53,6 @@ const INITIAL_VALUES = {
   age: null,
   temp: [false, false, false],
   precip: [false, false, false],
-}
-
-type ProfileSettingsType = {
-  age: number | null
-  temp: boolean[]
-  precip: boolean[]
 }
 
 const AgeInput: React.FC = () => {
@@ -180,17 +173,6 @@ const PreferencesSelection = () => (
     <SavePreferencesButton />
   </>
 )
-
-const useLocalstoragePreferences = () => {
-  const [localstorageValues, setLocalstorageValues] = useState<ProfileSettingsType | undefined>(undefined)
-
-  useEffect(() => {
-    const foundValues: string | null = localStorage.getItem(LOCALSTORAGE_PREFERENCES_KEY)
-    if (foundValues) setLocalstorageValues(JSON.parse(foundValues) as ProfileSettingsType)
-  }, [])
-
-  return [localstorageValues, setLocalstorageValues] as const
-}
 
 const ProfilePage: NextPage = () => {
   const [localstorageValues, setLocalstorageValues] = useLocalstoragePreferences()
