@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { RiskIndexGauge } from './RiskIndexGauge'
 import { IcoRain, IcoTemperature } from './icons'
 import { MetricVisualisation } from './MetricVisualisation'
-import { DayData } from '../types'
+import { DayData, Transport } from '../types'
 import { RiskIndexExplanationInfo } from './RiskIndexExplanationInfo'
 import moment from 'moment'
 
@@ -15,7 +15,7 @@ interface IProps {
   dayData: DayData | null
 }
 
-const messageBuilder = (recomendedTransport: 'BIKE' | 'BUS' | 'CAR', riskIndex: number) => {
+const messageBuilder = (recomendedTransport: Transport, riskIndex: number) => {
   if (recomendedTransport === 'BIKE' && riskIndex < 3) {
     return 'Today is a good day to ride a bike.'
   }
@@ -59,17 +59,12 @@ export const EntityDetail: FC<IProps> = ({ className, open, onClose, dayData }) 
           <h1 className="text-2xl mt-4">{dayData ? moment(dayData?.date).format('LL') : ''}</h1>
           <div className="w-11/12 flex justify-around">
             <MetricVisualisation
-              ico={<IcoTemperature />}
+              Icon={IcoTemperature}
               className={''}
               fromValue={dayData?.temperature || '0'}
               unit={'°C'}
             />
-            <MetricVisualisation
-              ico={<IcoRain />}
-              className={''}
-              fromValue={dayData?.precipitation || '0'}
-              unit={'mm'}
-            />
+            <MetricVisualisation Icon={IcoRain} className={''} fromValue={dayData?.precipitation || '0'} unit={'mm'} />
           </div>
           <div className="w-11/12 bg-whiskey px-3 py-1 text-white rounded-lg">
             {dayData ? messageBuilder(dayData.transport, dayData.index) : 'No data'}
