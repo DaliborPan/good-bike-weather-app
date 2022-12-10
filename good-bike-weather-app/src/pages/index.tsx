@@ -30,7 +30,7 @@ const Home: NextPage = () => {
         <div className="flex h-full">
           <div className="w-3/4 flex flex-col h-full">
             <h1 className="mt-20 text-6xl text-off-yellow font-bold">Have a safe ride!</h1>
-            <p className="mb-10 mt-5 text-xl max-w-sm text-white/70 shadow-lg px-6 py-4 border border-dark-green/30 rounded-lg">
+            <p className="mb-10 mt-5 text-xl max-w-sm text-dark-green md:text-white/70 shadow-lg px-6 py-4 border border-dark-green/30 rounded-lg">
               {'We will tell you, when it’s safe to ride a bike in Brno. We know the future!'}
             </p>
             <div>
@@ -54,7 +54,7 @@ const Home: NextPage = () => {
             <div className="absolute top-72 -right-3 rotate-6 z-10">
               <Image src={HERO_CARD} alt="" height={400} />
             </div>
-            <div className="absolute top-10 -left-96 -rotate-3 rounded-lg bg-gradient-to-r from-champagne/70 m-1 to-green p-1 shadow-lg hover:transition-all hover:-translate-x-20 hover:duration-500">
+            <div className="hidden md:block absolute top-10 -left-96 -rotate-3 rounded-lg bg-gradient-to-r from-champagne/70 m-1 to-green p-1 shadow-lg hover:transition-all hover:-translate-x-20 hover:duration-500">
               <Image src={HERO_DETAIL} alt="" height={300} />
             </div>
           </div>
