@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { DayData, Transport, ProfileSettingsType } from '../types'
-import { getPrecipitationRange } from '../utils'
+import { getDefaultTransport, getPrecipitationRange } from '../utils'
 import { useLocalstoragePreferences } from './useLocalstoragePreferences'
 
 const checkTemperatureForBike = (userTemp: boolean[], temperature: number) =>
@@ -10,13 +10,6 @@ const checkPrecipitationForBike = (userPrecip: boolean[], maxPrecip: number) =>
   (maxPrecip <= 5 && userPrecip.some((v) => v)) ||
   (maxPrecip <= 10 && (userPrecip[1] || userPrecip[2])) ||
   (maxPrecip > 10 && userPrecip[2])
-
-const getDefaultTransport = ({ precipitation, temperature }: DayData): Transport => {
-  if (temperature < 0) return 'CAR'
-  if (precipitation < 10 && temperature > 10) return 'BIKE'
-
-  return 'BUS'
-}
 
 /**
  * Logic

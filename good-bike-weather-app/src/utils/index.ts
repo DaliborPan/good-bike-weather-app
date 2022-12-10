@@ -4,6 +4,7 @@ import {
   BrnoBikeAccidentsResponse,
   DangerIndex,
   DateObject,
+  DayData,
   Month,
   Transport,
   WeatherPrecipitationResponse,
@@ -65,8 +66,8 @@ const riskIndexAvg = (input: number[]) => {
 
 // TODO: implement
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const determineTransportType = (index: DangerIndex): Transport => {
-  return 'BIKE'
+const determineTransportType = (temperature: number, precipitation: number): Transport => {
+  return getDefaultTransport({ temperature, precipitation })
 }
 
 const filterAccidentsByDate = (
@@ -82,6 +83,16 @@ const filterAccidentsByDate = (
     accidentDate.setMilliseconds(datum)
     return accidentDate.getDate() === date && mesic === month && rok === year
   })
+}
+
+export const getDefaultTransport = ({
+  precipitation,
+  temperature,
+}: Pick<DayData, 'precipitation' | 'temperature'>): Transport => {
+  if (temperature < 0) return 'CAR'
+  if (precipitation < 10 && temperature > 10) return 'BIKE'
+
+  return 'BUS'
 }
 
 export const isNotNull = <T>(obj: T | null): obj is T => {
@@ -103,7 +114,7 @@ export const getDayData = (
   const accidents = filterAccidentsByDate(brnoBikeAccidents, month, date, year)
 
   const index = calculateIndex(accidents, temperature, precipitation)
-  const transport = determineTransportType(index)
+  const transport = determineTransportType(temperature, precipitation)
 
   return {
     day: date,
