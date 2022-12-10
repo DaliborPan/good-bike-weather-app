@@ -9,7 +9,9 @@ interface IProps {
   unit: string
 }
 
-export const MetricVisualisation: FC<IProps> = ({ className, Icon, toValue = '', fromValue, unit }) => {
+export const MetricVisualisation: FC<IProps> = ({ className, Icon, toValue, fromValue, unit }) => {
+  const hasToValue = toValue !== undefined
+
   return (
     <div className={`flex items-center mx-4 my-2 ${className ? className : ''}`}>
       <div className="w-1/3 mr-3 flex items-center">
@@ -17,9 +19,13 @@ export const MetricVisualisation: FC<IProps> = ({ className, Icon, toValue = '',
       </div>
       <div className="grow flex items-center">
         <div className={'bg-off-yellow flex items-center justify-center py-1 rounded-lg text-lg w-2/3'}>
-          <span className={clsx(toValue === '' && 'px-4')}>{fromValue}</span>
-          {toValue !== '' && <span className={'mx-2 opacity-30'}>{+toValue === 0 ? ' ' : '-'}</span>}
-          <span>{toValue === '' ? '' : +toValue === 0 ? '😍' : toValue}</span>
+          <span className={clsx(!hasToValue && 'px-4')}>{fromValue}</span>
+          {hasToValue && (
+            <>
+              <span className={'mx-2 opacity-30'}>{+toValue === 0 ? ' ' : '-'}</span>
+              <span>{+toValue === 0 ? '😍' : toValue}</span>
+            </>
+          )}
         </div>
         <span className={'text-lg ml-2'}>{unit}</span>
       </div>
