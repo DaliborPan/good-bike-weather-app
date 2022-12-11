@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export const MetricVisualisation: FC<IProps> = ({ className, Icon, toValue, fromValue, unit }) => {
-  const hasToValue = toValue !== undefined
+  const hasToValue = toValue !== undefined && toValue !== 0
 
   return (
     <div className={`flex items-center mx-4 my-2 ${className ? className : ''}`}>
@@ -23,7 +23,7 @@ export const MetricVisualisation: FC<IProps> = ({ className, Icon, toValue, from
           {hasToValue && (
             <>
               <span className={'mx-2 opacity-30'}>{+toValue === 0 ? ' ' : '-'}</span>
-              <span>{+toValue === 0 ? '😍' : toValue}</span>
+              <span>{+toValue}</span>
             </>
           )}
         </div>

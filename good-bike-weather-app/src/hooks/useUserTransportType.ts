@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { DayData, Transport, ProfileSettingsType } from '../types'
+import { useCallback } from 'react'
+import { DayData, ProfileSettingsType, Transport } from '../types'
 import { getDefaultTransport, getPrecipitationRange } from '../utils'
 import { useLocalstoragePreferences } from './useLocalstoragePreferences'
 
@@ -37,15 +37,17 @@ const determinePreferredTransport = (
   return 'BUS'
 }
 
-export const useUserTransportType = (dayData: DayData): Transport => {
+export const useUserTransportType = () => {
   const [localstorageValues] = useLocalstoragePreferences()
-  const [transport, setTransport] = useState<Transport | undefined>(undefined)
 
-  useEffect(() => {
-    if (!localstorageValues) return
+  const getUserTransport = useCallback<(dayData: DayData) => Transport>(
+    (dayData) => {
+      return !localstorageValues
+        ? getDefaultTransport(dayData)
+        : determinePreferredTransport(localstorageValues, dayData)
+    },
+    [localstorageValues]
+  )
 
-    setTransport(determinePreferredTransport(localstorageValues, dayData))
-  }, [localstorageValues, dayData])
-
-  return transport ?? getDefaultTransport(dayData)
+  return { getUserTransport };
 }

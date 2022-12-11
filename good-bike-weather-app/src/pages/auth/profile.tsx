@@ -188,10 +188,10 @@ const ProfilePage: NextPage = () => {
   return (
     <div className="app-bg">
       <AppNavigation />
-      <h1 className="flex w-1/2 text-light-green text-4xl font-extralight pt-8">Your profile & settings</h1>
+      <h1 className="flex w-1/2 text-light-green text-4xl font-extralight pt-4">Your profile & settings</h1>
 
       <Formik initialValues={localstorageValues ?? INITIAL_VALUES} onSubmit={onFormSubmit} enableReinitialize>
-        <Form className="flex flex-col bg-light-green w-11/12 xl:w-3/4 rounded-lg p-12 mb-8 h-full">
+        <Form className="flex flex-col bg-light-green w-11/12 xl:w-3/4 rounded-lg p-8 mb-8 h-full">
           <div className="flex justify-center h-full space-x-20">
             <div className="flex flex-col space-y-16 h-full w-1/2">
               <Avatar />

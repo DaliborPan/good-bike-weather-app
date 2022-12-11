@@ -8,35 +8,7 @@ import {
   getSortedRowModel,
   Row,
 } from '@tanstack/react-table'
-import { useLocalstoragePreferences } from '../hooks/useLocalstoragePreferences'
-import { useUserTransportType } from '../hooks/useUserTransportType'
-import { DayData, ProfileSettingsType } from '../types'
-
-const TableRow: <T extends DayData>(props: {
-  row: Row<T>
-  onRowClick?: (row: Row<T>) => void
-  localstorageValues?: ProfileSettingsType | null
-}) => JSX.Element = ({ row, onRowClick }) => {
-  const transportType = useUserTransportType(row.original)
-
-  return (
-    <tr
-      key={row.id}
-      onClick={() => {
-        onRowClick && onRowClick(row)
-      }}
-      className="cursor-pointer"
-    >
-      {row.getVisibleCells().map((cell) => {
-        return (
-          <td key={cell.id}>
-            {flexRender(cell.column.id === 'transport' ? transportType : cell.column.columnDef.cell, cell.getContext())}
-          </td>
-        )
-      })}
-    </tr>
-  )
-}
+import { DayData } from '../types'
 
 interface IProps<T extends object> {
   className?: string
@@ -66,8 +38,6 @@ const Table: <T extends DayData>(props: IProps<T>) => React.ReactElement<IProps<
       },
     },
   })
-
-  const [localstorageValues] = useLocalstoragePreferences()
 
   return (
     <div className={`app-table ${className || ''}`}>
@@ -100,7 +70,17 @@ const Table: <T extends DayData>(props: IProps<T>) => React.ReactElement<IProps<
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id} {...{ row, onRowClick, localstorageValues }} />
+            <tr
+              key={row.id}
+              onClick={() => {
+                onRowClick && onRowClick(row)
+              }}
+              className="cursor-pointer"
+            >
+              {row.getVisibleCells().map((cell) => {
+                return <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+              })}
+            </tr>
           ))}
         </tbody>
       </table>

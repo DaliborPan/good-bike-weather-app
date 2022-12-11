@@ -19,14 +19,14 @@ interface IProps extends DayData {
 export const Card: FC<IProps> = ({ className, title, titleColor = 'text-light-green', ...dayData }) => {
   const [fromPrecip, toPrecip] = getPrecipitationRange(dayData.precipitation)
 
-  const transportType = useUserTransportType(dayData)
+  const { getUserTransport } = useUserTransportType()
 
   return (
     <div className={clsx(`flex flex-col items-center gap-12 pt-10`, className)}>
       <h1 className={clsx('uppercase text-5xl font-light', titleColor)}>{title}</h1>
 
       <div className="h-[500px] w-[320px] rounded-lg bg-light-green flex flex-col justify-between shadow-lg">
-        <TransportImage type={transportType} />
+        <TransportImage type={getUserTransport(dayData)} />
         <MetricVisualisation
           Icon={IcoTemperature}
           className={'px-5 mt-6'}
