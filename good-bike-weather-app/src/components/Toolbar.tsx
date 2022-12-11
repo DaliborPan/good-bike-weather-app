@@ -3,7 +3,8 @@ import { Slider, Box, TextField, Select, MenuItem, FormControl, InputLabel } fro
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import moment, { Moment } from 'moment'
 import useDebounce from '../hooks/useDebounce'
-import { OFFSET_YEAR } from '../const'
+import { DANGER_INDICES, OFFSET_YEAR, TRANSPORT_TYPES } from '../const'
+import { DangerIndex, Transport } from '../types'
 
 export interface IDataFilter {
   dateFrom?: Moment
@@ -24,8 +25,8 @@ export const Toolbar: FC<IProps> = ({ className, onChange }) => {
   const [dateTo, setDateTo] = useState<Moment>(moment().subtract({ years: OFFSET_YEAR }).add({ weeks: 2 }))
   const [temperatureRange, setTemperatureRange] = useState<[number, number]>([-20, 50])
   const [precipitationRange, setPrecipitationRange] = useState<[number, number]>([0, 100])
-  const [riskIndexRange, setRiskIndexRange] = useState<[number, number]>([0, 10])
-  const [transport, setTransport] = useState<string[]>(['BIKE', 'CAR'])
+  const [riskIndexRange, setRiskIndexRange] = useState<[DangerIndex, DangerIndex]>([1, 9])
+  const [transport, setTransport] = useState<Transport[]>(['BIKE', 'CAR', 'BUS'])
 
   const debouncedTemperature = useDebounce(temperatureRange, 500)
   const debouncedPrecipitation = useDebounce(precipitationRange, 500)
@@ -114,15 +115,15 @@ export const Toolbar: FC<IProps> = ({ className, onChange }) => {
         <Slider
           value={riskIndexRange}
           className={'w-full'}
-          onChange={(_, val) => setRiskIndexRange(val as [number, number])}
-          min={0}
-          max={10}
+          onChange={(_, val) => setRiskIndexRange(val as [DangerIndex, DangerIndex])}
+          min={DANGER_INDICES[0]}
+          max={DANGER_INDICES[DANGER_INDICES.length - 1]}
           step={1}
           size={'small'}
           valueLabelDisplay="auto"
           marks={[
-            { value: 0, label: '0' },
-            { value: 10, label: '10' },
+            { value: DANGER_INDICES[0], label: DANGER_INDICES[0] },
+            { value: DANGER_INDICES[DANGER_INDICES.length - 1], label: DANGER_INDICES[DANGER_INDICES.length - 1] },
           ]}
         />
       </Box>
@@ -135,11 +136,16 @@ export const Toolbar: FC<IProps> = ({ className, onChange }) => {
           value={transport}
           multiple
           onChange={(e) =>
-            setTransport(typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value)
+            setTransport(
+              typeof e.target.value === 'string' ? (e.target.value.split(',') as Transport[]) : e.target.value
+            )
           }
         >
-          <MenuItem value={'BIKE'}>Bike</MenuItem>
-          <MenuItem value={'CAR'}>Car</MenuItem>
+          {TRANSPORT_TYPES.map((type) => (
+            <MenuItem key={type} value={type}>
+              {type}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>

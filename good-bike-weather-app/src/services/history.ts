@@ -1,6 +1,3 @@
-// TODO: Remove once functions are implemented
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { DayData } from '../types'
 import { getDayData, isNotNull } from '../utils'
 import { getBrnoBikeAccidents } from './accidents'
 import { getTemperatureAllTime, getPrecipitationAllTime } from './weather'

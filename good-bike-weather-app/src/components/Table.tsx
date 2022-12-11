@@ -8,6 +8,35 @@ import {
   getSortedRowModel,
   Row,
 } from '@tanstack/react-table'
+import { useLocalstoragePreferences } from '../hooks/useLocalstoragePreferences'
+import { useUserTransportType } from '../hooks/useUserTransportType'
+import { DayData, ProfileSettingsType } from '../types'
+
+const TableRow: <T extends DayData>(props: {
+  row: Row<T>
+  onRowClick?: (row: Row<T>) => void
+  localstorageValues?: ProfileSettingsType | null
+}) => JSX.Element = ({ row, onRowClick }) => {
+  const transportType = useUserTransportType(row.original)
+
+  return (
+    <tr
+      key={row.id}
+      onClick={() => {
+        onRowClick && onRowClick(row)
+      }}
+      className="cursor-pointer"
+    >
+      {row.getVisibleCells().map((cell) => {
+        return (
+          <td key={cell.id}>
+            {flexRender(cell.column.id === 'transport' ? transportType : cell.column.columnDef.cell, cell.getContext())}
+          </td>
+        )
+      })}
+    </tr>
+  )
+}
 
 interface IProps<T extends object> {
   className?: string
@@ -17,7 +46,7 @@ interface IProps<T extends object> {
   onRowClick?: (row: Row<T>) => void
 }
 
-const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> = ({
+const Table: <T extends DayData>(props: IProps<T>) => React.ReactElement<IProps<T>> = ({
   className,
   columns,
   data,
@@ -37,6 +66,8 @@ const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> =
       },
     },
   })
+
+  const [localstorageValues] = useLocalstoragePreferences()
 
   return (
     <div className={`app-table ${className || ''}`}>
@@ -69,17 +100,7 @@ const Table: <T extends object>(p: IProps<T>) => React.ReactElement<IProps<T>> =
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr
-              key={row.id}
-              onClick={() => {
-                onRowClick && onRowClick(row)
-              }}
-              className="cursor-pointer"
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-              ))}
-            </tr>
+            <TableRow key={row.id} {...{ row, onRowClick, localstorageValues }} />
           ))}
         </tbody>
       </table>
