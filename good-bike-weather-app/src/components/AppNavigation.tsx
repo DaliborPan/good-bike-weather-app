@@ -27,7 +27,7 @@ export const AppNavigation: FC<IProps> = ({ className }) => {
 
   const navOpts: NavOpt[] = [
     { link: '/auth/home', name: 'Home' },
-    { link: '/auth/history', name: 'History' },
+    { link: '/auth/history', name: 'Overview' },
   ]
 
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null)
