@@ -27,13 +27,7 @@ export const Chart: FC<IProps> = ({ className, data }) => {
 
   return (
     <div className={`w-full min-w-full h-full ${className ? className : ''}`}>
-      <VictoryChart
-        theme={VictoryTheme.material}
-        width={900}
-        height={350}
-        // viewBox="0 0 900 350"
-        // className={'w-full h-full'}
-      >
+      <VictoryChart theme={VictoryTheme.material} width={900} height={350}>
         <VictoryAxis
           tickCount={15}
           style={{
@@ -59,7 +53,7 @@ export const Chart: FC<IProps> = ({ className, data }) => {
         />
 
         <VictoryBar
-          style={{ data: { fill: '#0077B6' } }}
+          style={{ data: { fill: '#0077B6', width: 12 } }}
           data={precData}
           animate={{
             duration: 2000,

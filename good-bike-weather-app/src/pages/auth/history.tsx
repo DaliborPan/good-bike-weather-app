@@ -12,6 +12,10 @@ import _ from 'lodash'
 import { Chart } from '../../components/Chart'
 import { RiskIndexExplanationInfo } from '../../components/RiskIndexExplanationInfo'
 import { EntityDetail } from '../../components/EntityDetail'
+import { useUserTransportType } from '../../hooks/useUserTransportType'
+import { IcoBicycle } from '../../components/icons/IcoBicycle'
+import { IcoBus } from '../../components/icons/IcoBus'
+import { IcoCar } from '../../components/icons/IcoCar'
 
 const columnHelper = createColumnHelper<DayData>()
 
@@ -50,24 +54,33 @@ const columns = [
     ),
     sortingFn: (rowA, rowB) => rowA.original.index - rowB.original.index,
   }),
-  columnHelper.accessor('transport', {
-    header: 'Transport',
-    cell: (pageData) => `${pageData.getValue()}`,
-  }),
   columnHelper.accessor('accidents', {
     header: 'Accidents',
     cell: (pageData) => `${pageData.getValue()?.length || 0}`,
     sortingFn: (rowA, rowB) => rowA.original.accidents.length - rowB.original.accidents.length,
+  }),
+  columnHelper.accessor('transport', {
+    header: 'Transport',
+    cell: (pageData) => (
+      <span className="flex justify-center items-center">
+        {pageData.getValue() === 'BIKE' && <IcoBicycle className="w-5 fill-whiskey" />}
+        {pageData.getValue() === 'CAR' && <IcoCar className="w-5 fill-whiskey" />}
+        {pageData.getValue() === 'BUS' && <IcoBus className="w-5 fill-whiskey" />}
+      </span>
+    ),
   }),
 ]
 
 const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
   const [filter, setFilter] = useState<IDataFilter | null>(null)
   const [entityDetail, setEntityDetail] = useState<DayData | null>(null)
+  const { getUserTransport } = useUserTransportType()
 
   const tableData = useMemo<DayData[]>(() => {
     if (!filter) return []
+
     return data
+      .map((dayData) => ({ ...dayData, transport: getUserTransport(dayData) }))
       .filter(({ year, month, day }) => moment({ year, month, day }).isAfter(filter.dateFrom))
       .filter(({ year, month, day }) => moment({ year, month, day }).isBefore(filter.dateTo))
       .filter(({ temperature }) => _.inRange(temperature, filter.temperatureRange[0], filter.temperatureRange[1]))
@@ -76,7 +89,7 @@ const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
       )
       .filter(({ index }) => _.inRange(index, filter.riskIndexRange[0], filter.riskIndexRange[1]))
       .filter(({ transport }) => filter.transport.includes(transport))
-  }, [filter, data])
+  }, [filter, data, getUserTransport])
 
   return (
     <div className="app-bg">
