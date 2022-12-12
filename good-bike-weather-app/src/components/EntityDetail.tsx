@@ -80,7 +80,7 @@ export const EntityDetail: FC<IProps> = ({ className, open, onClose, dayData }) 
                   <div>
                     {prettyMessage(accident.attributes.nasledky)}
                     <br />
-                    <span className="text-black/70">{prettyMessage(accident.attributes.pricina)}</span>
+                    <span className="text-black/70 text-xs">{prettyMessage(accident.attributes.pricina)}</span>
                   </div>
                 </div>
               ))}

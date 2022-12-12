@@ -6,11 +6,6 @@ import { useHomeData } from '../../hooks/home'
 const Home: NextPage = () => {
   const { data, isLoading } = useHomeData()
 
-  // TOOD: some logic to determine correct transport type
-
-  // eslint-disable-next-line no-console
-  console.log(data)
-
   return (
     <div className="app-bg">
       <AppNavigation />
