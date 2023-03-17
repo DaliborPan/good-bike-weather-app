@@ -8,9 +8,10 @@ import {
   getSortedRowModel,
   Row,
 } from '@tanstack/react-table'
+import clsx from 'clsx'
 import { DayData } from 'types'
 
-interface IProps<T extends object> {
+type Props<T extends object> = {
   className?: string
   columns: ColumnDef<T, any>[]
   data: T[]
@@ -18,8 +19,8 @@ interface IProps<T extends object> {
   onRowClick?: (row: Row<T>) => void
 }
 
-const Table: <T extends DayData>(props: IProps<T>) => React.ReactElement<IProps<T>> = ({
-  className,
+export const Table: <T extends DayData>(props: Props<T>) => React.ReactElement<Props<T>> = ({
+  className = '',
   columns,
   data,
   defaultSort,
@@ -40,7 +41,7 @@ const Table: <T extends DayData>(props: IProps<T>) => React.ReactElement<IProps<
   })
 
   return (
-    <div className={`app-table ${className || ''}`}>
+    <div className={clsx('app-table', className)}>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -50,9 +51,10 @@ const Table: <T extends DayData>(props: IProps<T>) => React.ReactElement<IProps<
                   {header.isPlaceholder ? null : (
                     <div
                       {...{
-                        className: `flex items-center justify-center ${
-                          header.column.getCanSort() ? 'cursor-pointer select-none' : ''
-                        }`,
+                        className: clsx(
+                          'flex items-center justify-center',
+                          header.column.getCanSort() && 'cursor-pointer select-none'
+                        ),
                         onClick: header.column.getToggleSortingHandler(),
                       }}
                     >
@@ -85,10 +87,8 @@ const Table: <T extends DayData>(props: IProps<T>) => React.ReactElement<IProps<
         </tbody>
       </table>
       <div className="h-10 bg-light-green sticky bottom-0 flex justify-end items-center">
-        <Pagination size={'small'} count={table.getPageCount()} onChange={(e, page) => table.setPageIndex(page - 1)} />
+        <Pagination size="small" count={table.getPageCount()} onChange={(e, page) => table.setPageIndex(page - 1)} />
       </div>
     </div>
   )
 }
-
-export default Table

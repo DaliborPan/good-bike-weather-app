@@ -2,31 +2,25 @@ import moment from 'moment'
 import { FC, useMemo } from 'react'
 import { VictoryChart, VictoryAxis, VictoryBar, VictoryLine, VictoryTheme } from 'victory'
 import { DayData } from 'types'
+import clsx from 'clsx'
 
-interface IProps {
+const useChartData = (data: DayData[], dayDataKey: Extract<keyof DayData, 'temperature' | 'precipitation'>) => {
+  return useMemo(() => {
+    return data?.map((d) => ({ x: moment(d.date).format('DD. MM. yyyy'), y: d[dayDataKey] })) ?? []
+  }, [data, dayDataKey])
+}
+
+type Props = {
   className?: string
   data: DayData[]
 }
 
-type Coords = {
-  x: string
-  y: number
-}[]
-
-const useChartData = (data: DayData[], dayDataKey: Extract<keyof DayData, 'temperature' | 'precipitation'>) => {
-  return useMemo<Coords>(() => {
-    if (!data) return []
-
-    return data.map((d) => ({ x: moment(d.date).format('DD. MM. yyyy'), y: d[dayDataKey] }))
-  }, [data, dayDataKey])
-}
-
-export const Chart: FC<IProps> = ({ className, data }) => {
+export const Chart: FC<Props> = ({ className = '', data }) => {
   const tempData = useChartData(data, 'temperature')
   const precData = useChartData(data, 'precipitation')
 
   return (
-    <div className={`w-full min-w-full h-full ${className ? className : ''}`}>
+    <div className={clsx('w-full min-w-full h-full', className)}>
       <VictoryChart theme={VictoryTheme.material} width={900} height={350}>
         <VictoryAxis
           tickCount={15}
