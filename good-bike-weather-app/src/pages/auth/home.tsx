@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
-import { AppNavigation } from '../../components/AppNavigation'
-import { Card } from '../../components/Card'
-import { useHomeData } from '../../hooks/home'
+import { AppNavigation } from 'components/AppNavigation'
+import { Card } from 'components/Card'
+import { useHomeData } from 'hooks/home'
 
 const Home: NextPage = () => {
   const { data, isLoading } = useHomeData()

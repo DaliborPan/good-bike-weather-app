@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from 'next/image'
 
-import { Transport } from '../types'
+import { Transport } from 'types'
 
 import BIKE_IMAGE from '../../public/images/bicycle.png'
 import CAR_IMAGE from '../../public/images/car.jpeg'

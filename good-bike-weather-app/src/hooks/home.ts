@@ -6,10 +6,10 @@ import {
   WEATHER_PRECIPITATION_API_KEY,
   WEATHER_TEMPERATURE_API_BASE,
   WEATHER_TEMPERATURE_API_KEY,
-} from '../const'
-import { getBrnoBikeAccidents } from '../services/accidents'
-import { DayData, Month, WeatherPrecipitationResponse, WeatherTemperatureResponse, Year } from '../types'
-import { getDayData, isNotNull } from '../utils'
+} from 'const'
+import { getBrnoBikeAccidents } from 'services/accidents'
+import { DayData, Month, WeatherPrecipitationResponse, WeatherTemperatureResponse, Year } from 'types'
+import { getDayData, isNotNull } from 'utils'
 
 const getDateObject = (d: Date) => ({
   date: d.getDate(),

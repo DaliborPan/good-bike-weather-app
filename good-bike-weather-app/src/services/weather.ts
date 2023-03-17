@@ -4,9 +4,9 @@ import {
   WEATHER_PRECIPITATION_API_KEY,
   WEATHER_TEMPERATURE_API_BASE,
   WEATHER_TEMPERATURE_API_KEY,
-} from '../const'
+} from 'const'
 
-import { WeatherPrecipitationResponse, WeatherTemperatureResponse } from '../types'
+import { WeatherPrecipitationResponse, WeatherTemperatureResponse } from 'types'
 
 export const getPrecipitationAllTime = async (): Promise<WeatherPrecipitationResponse> => {
   const response = await axios.get(`${WEATHER_PRECIPITATION_API_BASE}precipitation?q={}`, {

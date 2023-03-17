@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { DayData, ProfileSettingsType, Transport } from '../types'
-import { getDefaultTransport, getPrecipitationRange } from '../utils'
+import { DayData, ProfileSettingsType, Transport } from 'types'
+import { getDefaultTransport, getPrecipitationRange } from 'utils'
 import { useLocalstoragePreferences } from './useLocalstoragePreferences'
 
 const checkTemperatureForBike = (userTemp: boolean[], temperature: number) =>
@@ -49,5 +49,5 @@ export const useUserTransportType = () => {
     [localstorageValues]
   )
 
-  return { getUserTransport };
+  return { getUserTransport }
 }

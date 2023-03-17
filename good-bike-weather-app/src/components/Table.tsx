@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   Row,
 } from '@tanstack/react-table'
-import { DayData } from '../types'
+import { DayData } from 'types'
 
 interface IProps<T extends object> {
   className?: string

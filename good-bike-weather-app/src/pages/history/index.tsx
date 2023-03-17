@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
-import { AppNavigation } from '../../components/AppNavigation'
-import { Toolbar } from '../../components/Toolbar'
 import { Tab } from '@headlessui/react'
+
+import { AppNavigation } from 'components/AppNavigation'
+import { Toolbar } from 'components/Toolbar'
 
 const History: NextPage = () => {
   return (
