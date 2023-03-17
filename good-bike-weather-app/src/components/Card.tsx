@@ -6,9 +6,9 @@ import { MetricVisualisation } from './MetricVisualisation'
 import { RiskIndexGauge } from './RiskIndexGauge'
 import { TransportImage } from './TransportImage'
 
-import { DayData } from '../types'
-import { useUserTransportType } from '../hooks/useUserTransportType'
-import { getPrecipitationRange } from '../utils'
+import { DayData } from 'types'
+import { useUserTransportType } from 'hooks/useUserTransportType'
+import { getPrecipitationRange } from 'utils'
 
 interface IProps extends DayData {
   title: string

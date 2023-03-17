@@ -1,4 +1,4 @@
-import { getDayData, isNotNull } from '../utils'
+import { getDayData, isNotNull } from 'utils'
 import { getBrnoBikeAccidents } from './accidents'
 import { getTemperatureAllTime, getPrecipitationAllTime } from './weather'
 

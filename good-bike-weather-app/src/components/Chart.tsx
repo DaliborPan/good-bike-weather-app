@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { FC, useMemo } from 'react'
 import { VictoryChart, VictoryAxis, VictoryBar, VictoryLine, VictoryTheme } from 'victory'
-import { DayData } from '../types'
+import { DayData } from 'types'
 
 interface IProps {
   className?: string

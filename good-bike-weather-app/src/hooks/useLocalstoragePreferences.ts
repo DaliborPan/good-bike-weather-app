@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ProfileSettingsType } from '../types'
+import { ProfileSettingsType } from 'types'
 
 export const LOCALSTORAGE_PREFERENCES_KEY = 'userPreferences'
 

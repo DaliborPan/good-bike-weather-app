@@ -10,7 +10,7 @@ import {
   WeatherPrecipitationResponse,
   WeatherTemperatureResponse,
   Year,
-} from '../types'
+} from 'types'
 
 const PRECIPITATION_RISK_INDEX_WEIGHT = 3
 const TEMPERATURE_RISK_INDEX_WEIGHT = 1

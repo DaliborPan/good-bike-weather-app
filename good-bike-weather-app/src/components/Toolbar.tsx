@@ -2,9 +2,9 @@ import { FC, useEffect, useState } from 'react'
 import { Slider, Box, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import moment, { Moment } from 'moment'
-import useDebounce from '../hooks/useDebounce'
-import { DANGER_INDICES, OFFSET_YEAR, TRANSPORT_TYPES } from '../const'
-import { DangerIndex, Transport } from '../types'
+import useDebounce from 'hooks/useDebounce'
+import { DANGER_INDICES, OFFSET_YEAR, TRANSPORT_TYPES } from 'const'
+import { DangerIndex, Transport } from 'types'
 
 export interface IDataFilter {
   dateFrom?: Moment

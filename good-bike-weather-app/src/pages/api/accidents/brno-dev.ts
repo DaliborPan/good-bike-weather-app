@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { EXAMPLE_BRNO_BIKE_ACCIDENT_RESPONSE } from '../../../const'
+import { EXAMPLE_BRNO_BIKE_ACCIDENT_RESPONSE } from 'const'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const acc1 = { attributes: { ...EXAMPLE_BRNO_BIKE_ACCIDENT_RESPONSE.attributes, den: 1, mesic: 10, rok: 2012 } }

@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { DANGER_INDICES } from '../const'
-import { DangerIndex } from '../types'
+import { DANGER_INDICES } from 'const'
+import { DangerIndex } from 'types'
 
 interface IProps {
   className?: string
