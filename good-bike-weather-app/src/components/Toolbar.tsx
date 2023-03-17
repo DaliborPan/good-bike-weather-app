@@ -5,8 +5,9 @@ import moment, { Moment } from 'moment'
 import useDebounce from 'hooks/useDebounce'
 import { DANGER_INDICES, OFFSET_YEAR, TRANSPORT_TYPES } from 'const'
 import { DangerIndex, Transport } from 'types'
+import clsx from 'clsx'
 
-export interface IDataFilter {
+export type DataFilter = {
   dateFrom?: Moment
   dateTo?: Moment
   temperatureRange: [number, number]
@@ -15,12 +16,12 @@ export interface IDataFilter {
   transport: string[]
 }
 
-interface IProps {
+type Props = {
   className?: string
-  onChange?: (filter: IDataFilter) => void
+  onChange?: (filter: DataFilter) => void
 }
 
-export const Toolbar: FC<IProps> = ({ className, onChange }) => {
+export const Toolbar: FC<Props> = ({ className = '', onChange }) => {
   const [dateFrom, setDateFrom] = useState<Moment>(moment().subtract({ years: OFFSET_YEAR, months: 1 }))
   const [dateTo, setDateTo] = useState<Moment>(moment().subtract({ years: OFFSET_YEAR }).add({ weeks: 2 }))
   const [temperatureRange, setTemperatureRange] = useState<[number, number]>([-20, 50])
@@ -34,6 +35,7 @@ export const Toolbar: FC<IProps> = ({ className, onChange }) => {
 
   useEffect(() => {
     if (!onChange) return
+
     onChange({
       dateFrom,
       dateTo,
@@ -45,30 +47,26 @@ export const Toolbar: FC<IProps> = ({ className, onChange }) => {
   }, [onChange, dateFrom, dateTo, debouncedTemperature, debouncedPrecipitation, debouncedRiskIndex, transport])
 
   return (
-    <div
-      className={`bg-light-green rounded-lg h-16 flex justify-center items-center gap-4 px-5 ${
-        className ? className : ''
-      }`}
-    >
+    <div className={clsx('bg-light-green rounded-lg h-16 flex justify-center items-center gap-4 px-5', className)}>
       <DatePicker
-        className={'basis-40'}
+        className="basis-40"
         label="Date from"
         value={dateFrom}
         onChange={(val) => {
           setDateFrom(val as Moment)
         }}
-        renderInput={(params) => <TextField {...params} variant={'standard'} />}
+        renderInput={(params) => <TextField {...params} variant="standard" />}
       />
       <DatePicker
         label="Date to"
-        className={'basis-40'}
+        className="basis-40"
         value={dateTo}
         onChange={(val) => {
           setDateTo(val as Moment)
         }}
-        renderInput={(params) => <TextField {...params} variant={'standard'} />}
+        renderInput={(params) => <TextField {...params} variant="standard" />}
       />
-      <Box className={'basis-1/8 grow px-5 h-12'}>
+      <Box className="basis-1/8 grow px-5 h-12">
         <InputLabel variant="standard" shrink>
           Temperature
         </InputLabel>
@@ -78,7 +76,7 @@ export const Toolbar: FC<IProps> = ({ className, onChange }) => {
           min={-20}
           max={50}
           step={1}
-          size={'small'}
+          size="small"
           valueLabelDisplay="auto"
           getAriaValueText={(val) => `${val} °C`}
           marks={[
@@ -88,7 +86,7 @@ export const Toolbar: FC<IProps> = ({ className, onChange }) => {
         />
       </Box>
 
-      <Box className={'basis-1/8 grow px-5 h-12'}>
+      <Box className="basis-1/8 grow px-5 h-12">
         <InputLabel variant="standard" shrink>
           Precipitation
         </InputLabel>
@@ -98,7 +96,7 @@ export const Toolbar: FC<IProps> = ({ className, onChange }) => {
           min={0}
           max={100}
           step={1}
-          size={'small'}
+          size="small"
           valueLabelDisplay="auto"
           getAriaValueText={(val) => `${val} mm`}
           marks={[
@@ -108,18 +106,18 @@ export const Toolbar: FC<IProps> = ({ className, onChange }) => {
         />
       </Box>
 
-      <Box className={'basis-1/8 grow px-5 h-12'}>
+      <Box className="basis-1/8 grow px-5 h-12">
         <InputLabel variant="standard" shrink>
           Risk index
         </InputLabel>
         <Slider
           value={riskIndexRange}
-          className={'w-full'}
+          className="w-full"
           onChange={(_, val) => setRiskIndexRange(val as [DangerIndex, DangerIndex])}
           min={DANGER_INDICES[0]}
           max={DANGER_INDICES[DANGER_INDICES.length - 1]}
           step={1}
-          size={'small'}
+          size="small"
           valueLabelDisplay="auto"
           marks={[
             { value: DANGER_INDICES[0], label: DANGER_INDICES[0] },
@@ -128,11 +126,11 @@ export const Toolbar: FC<IProps> = ({ className, onChange }) => {
         />
       </Box>
 
-      <FormControl variant="standard" className={'basis-40 h-12'}>
+      <FormControl variant="standard" className="basis-40 h-12">
         <InputLabel shrink>Transport</InputLabel>
         <Select
           variant="standard"
-          label={'Transport'}
+          label="Transport"
           value={transport}
           multiple
           onChange={(e) =>

@@ -1,19 +1,20 @@
 import { Tooltip } from '@mui/material'
+import clsx from 'clsx'
 import { FC } from 'react'
 import { IcoInfo } from './icons'
 
-interface IProps {
+type Props = {
   className?: string
 }
 
-interface IRiskExplanation {
+type RiskExplanation = {
   index: string
   title: string
   description: string
   background: string
 }
 
-const RISK_EXPLANATION: IRiskExplanation[] = [
+const RISK_EXPLANATION: RiskExplanation[] = [
   {
     index: '1 - 3',
     title: 'Low risk',
@@ -36,7 +37,7 @@ const RISK_EXPLANATION: IRiskExplanation[] = [
   },
 ]
 
-export const RiskIndexExplanationInfo: FC<IProps> = ({ className }) => {
+export const RiskIndexExplanationInfo: FC<Props> = ({ className = '' }) => {
   return (
     <Tooltip
       title={
@@ -44,18 +45,20 @@ export const RiskIndexExplanationInfo: FC<IProps> = ({ className }) => {
           {RISK_EXPLANATION.map((risk) => (
             <div key={risk.index}>
               <div>
-                <span className={`text-white px-1.5 py-0.5 rounded-md ${risk.background} min-w-max`}>{risk.index}</span>
+                <span className={clsx('text-white px-1.5 py-0.5 rounded-md min-w-max', risk.background)}>
+                  {risk.index}
+                </span>
                 <span className="text-white min-w-max font-semibold ml-2 text-md">{risk.title}</span>
               </div>
-              <p className={'text-white'}>{risk.description}</p>
+              <p className="text-white">{risk.description}</p>
             </div>
           ))}
         </div>
       }
       placement="top"
     >
-      <span className={`h-3 ${className || ''}`}>
-        <IcoInfo className={'fill-whiskey h-full'} />
+      <span className={clsx('h-3', className)}>
+        <IcoInfo className="fill-whiskey h-full" />
       </span>
     </Tooltip>
   )

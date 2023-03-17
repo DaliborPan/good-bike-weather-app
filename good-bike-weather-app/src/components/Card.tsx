@@ -10,13 +10,13 @@ import { DayData } from 'types'
 import { useUserTransportType } from 'hooks/useUserTransportType'
 import { getPrecipitationRange } from 'utils'
 
-interface IProps extends DayData {
+type Props = DayData & {
   title: string
   className?: string
   titleColor?: string // tailwind's text-*
 }
 
-export const Card: FC<IProps> = ({ className, title, titleColor = 'text-light-green', ...dayData }) => {
+export const Card: FC<Props> = ({ className = '', title, titleColor = 'text-light-green', ...dayData }) => {
   const [fromPrecip, toPrecip] = getPrecipitationRange(dayData.precipitation)
 
   const { getUserTransport } = useUserTransportType()

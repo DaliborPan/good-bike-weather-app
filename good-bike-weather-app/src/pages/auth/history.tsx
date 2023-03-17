@@ -4,8 +4,8 @@ import moment from 'moment'
 import { GetStaticProps, NextPage } from 'next'
 import { useMemo, useState } from 'react'
 import { AppNavigation } from 'components/AppNavigation'
-import Table from 'components/Table'
-import { IDataFilter, Toolbar } from 'components/Toolbar'
+import { Table } from 'components/Table'
+import { type DataFilter, Toolbar } from 'components/Toolbar'
 import { getHistoryPageData } from 'services/history'
 import { DayData } from 'types'
 import _ from 'lodash'
@@ -72,7 +72,7 @@ const columns = [
 ]
 
 const HistoryPage: NextPage<{ data: DayData[] }> = ({ data }) => {
-  const [filter, setFilter] = useState<IDataFilter | null>(null)
+  const [filter, setFilter] = useState<DataFilter | null>(null)
   const [entityDetail, setEntityDetail] = useState<DayData | null>(null)
   const { getUserTransport } = useUserTransportType()
 
