@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Form, Formik, useFormikContext } from 'formik'
 
 import { AppNavigation } from 'components/AppNavigation'
-import AVATAR_IMAGE from '../../../public/images/avatar.png'
+import AVATAR_IMAGE from '/public/images/avatar.png'
 import { KeysHasValue, ProfileSettingsType } from 'types'
 import { IcoCloudSun, IcoCloud, IcoRain, IcoBigRain, IcoTemperatureLow, IcoSun, IcoFloppyDisk } from 'components/icons'
 import { LOCALSTORAGE_PREFERENCES_KEY, useLocalstoragePreferences } from 'hooks/useLocalstoragePreferences'

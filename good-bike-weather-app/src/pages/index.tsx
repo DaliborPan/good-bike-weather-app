@@ -2,8 +2,8 @@ import type { NextPage } from 'next'
 import { FC, SVGProps } from 'react'
 import Image from 'next/image'
 
-import HERO_CARD from '../../public/images/hero-card.png'
-import HERO_DETAIL from '../../public/images/detail.png'
+import HERO_CARD from '/public/images/hero-card.png'
+import HERO_DETAIL from '/public/images/detail.png'
 import { SignInButton } from 'components/SignInButton'
 import { IcoPersonBiking, IcoCloudSun, IcoCircleInfo, IcoUserGroup } from 'components/icons'
 
