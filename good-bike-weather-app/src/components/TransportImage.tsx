@@ -2,9 +2,9 @@ import Image, { StaticImageData } from 'next/image'
 
 import { Transport } from 'types'
 
-import BIKE_IMAGE from '../../public/images/bicycle.png'
-import CAR_IMAGE from '../../public/images/car.jpeg'
-import BUS_IMAGE from '../../public/images/bus.png'
+import BIKE_IMAGE from '/public/images/bicycle.png'
+import CAR_IMAGE from '/public/images/car.jpeg'
+import BUS_IMAGE from '/public/images/bus.png'
 
 type TransportImageProps = {
   type: Transport
