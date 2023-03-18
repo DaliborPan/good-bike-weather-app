@@ -9,7 +9,7 @@ import { AppNavigation } from 'components/AppNavigation'
 import AVATAR_IMAGE from '/public/images/avatar.png'
 import { KeysHasValue, ProfileSettingsType } from 'types'
 import { IcoCloudSun, IcoCloud, IcoRain, IcoBigRain, IcoTemperatureLow, IcoSun, IcoFloppyDisk } from 'components/icons'
-import { LOCALSTORAGE_PREFERENCES_KEY, useLocalstoragePreferences } from 'hooks/useLocalstoragePreferences'
+import { LOCALSTORAGE_PREFERENCES_KEY, usePreferencesInitialValues } from 'hooks/useLocalstoragePreferences'
 
 const PRECIPITATION_OPTIONS = [
   {
@@ -41,13 +41,7 @@ const TEMPERATURE_OPTIONS = [
   },
 ]
 
-const INITIAL_VALUES = {
-  age: null,
-  temp: [false, false, false],
-  precip: [false, false, false],
-}
-
-const AgeInput: React.FC = () => {
+const AgeInput = () => {
   const {
     setFieldValue,
     values: { age },
@@ -64,7 +58,7 @@ const AgeInput: React.FC = () => {
         className="text-right pr-4 py-1.5 text-2xl bg-off-yellow text-whiskey rounded-lg focus-within:outline-none focus-within:ring-1 focus-within:ring-whiskey"
         type="number"
         onChange={(e) => setFieldValue('age', +e.target.value)}
-        value={age ? (age as number) : ''}
+        value={age ?? undefined}
       />
     </div>
   )
@@ -167,14 +161,15 @@ const PreferencesSelection = () => (
 )
 
 const ProfilePage: NextPage = () => {
-  const [localstorageValues, setLocalstorageValues] = useLocalstoragePreferences()
+  const [initialValues, setInitialValues] = usePreferencesInitialValues()
 
+  // TODO: move setting to usePreferencesInitialValues
   const onFormSubmit = useCallback(
     (values: ProfileSettingsType) => {
-      setLocalstorageValues(values)
+      setInitialValues(values)
       localStorage.setItem(LOCALSTORAGE_PREFERENCES_KEY, JSON.stringify(values))
     },
-    [setLocalstorageValues]
+    [setInitialValues]
   )
 
   return (
@@ -182,7 +177,7 @@ const ProfilePage: NextPage = () => {
       <AppNavigation />
       <h1 className="flex w-1/2 text-light-green text-4xl font-extralight pt-4">Your profile & settings</h1>
 
-      <Formik initialValues={localstorageValues ?? INITIAL_VALUES} onSubmit={onFormSubmit} enableReinitialize>
+      <Formik initialValues={initialValues} onSubmit={onFormSubmit} enableReinitialize>
         <Form className="flex flex-col bg-light-green w-11/12 xl:w-3/4 rounded-lg p-8 mb-8 h-full">
           <div className="flex justify-center h-full space-x-20">
             <div className="flex flex-col space-y-16 h-full w-1/2">
