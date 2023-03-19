@@ -5,8 +5,8 @@ const LOCALSTORAGE_PREFERENCES_KEY = 'userPreferences'
 
 const INITIAL_VALUES: ProfileSettingsType = {
   age: null,
-  temp: [false, false, false],
-  precip: [false, false, false],
+  temp: [true, false, false],
+  precip: [true, false, false],
 }
 
 export const usePreferencesForm = () => {

@@ -27,16 +27,16 @@ const PRECIPITATION_OPTIONS = [
 
 const TEMPERATURE_OPTIONS = [
   {
-    Icon: IcoTemperatureLow,
-    label: '< 0 °C',
+    Icon: IcoSun,
+    label: '10+ °C',
   },
   {
     Icon: IcoCloudSun,
     label: '< 10 °C',
   },
   {
-    Icon: IcoSun,
-    label: '10+ °C',
+    Icon: IcoTemperatureLow,
+    label: '< 0 °C',
   },
 ]
 
@@ -107,12 +107,21 @@ const WeatherOptionsGroup: React.FC<WeatherOptionsGroupProps> = ({ options, name
             {...option}
             key={`${name}-${i}`}
             active={values[name][i]}
-            onClick={() =>
-              setFieldValue(
-                name,
-                values[name].map((v, index) => (index === i ? !v : v))
-              )
-            }
+            onClick={() => {
+              const newValue = !values[name][i]
+
+              if (newValue) {
+                setFieldValue(
+                  name,
+                  values[name].map((v, index) => (index !== 0 && index <= i ? newValue : v))
+                )
+              } else {
+                setFieldValue(
+                  name,
+                  values[name].map((v, index) => (index !== 0 && index >= i ? newValue : v))
+                )
+              }
+            }}
           />
         ))}
       </div>
@@ -126,19 +135,22 @@ type WeatherOptionButtonProps = typeof TEMPERATURE_OPTIONS[0] & {
   onClick: () => void
 }
 
-const WeatherOptionButton: React.FC<WeatherOptionButtonProps> = ({ Icon, label, active, onClick }) => (
-  <button
-    className={clsx(
-      'flex flex-col items-center justify-between py-3 bg-off-yellow rounded-lg text-2xl whitespace-nowrap aspect-square relative',
-      active && 'ring ring-whiskey'
-    )}
-    onClick={onClick}
-  >
-    {active && <div className="absolute top-2 right-2 h-4 w-4 rounded-full bg-whiskey" />}
-    <Icon height={52} className="p-1" />
-    <span>{label}</span>
-  </button>
-)
+const WeatherOptionButton: React.FC<WeatherOptionButtonProps> = ({ Icon, label, active, onClick }) => {
+  return (
+    <button
+      type="button"
+      className={clsx(
+        'flex flex-col items-center justify-between py-3 bg-off-yellow rounded-lg text-2xl whitespace-nowrap aspect-square relative',
+        active && 'ring ring-whiskey'
+      )}
+      onClick={onClick}
+    >
+      {active && <div className="absolute top-2 right-2 h-4 w-4 rounded-full bg-whiskey" />}
+      <Icon height={52} className="p-1" />
+      <span>{label}</span>
+    </button>
+  )
+}
 
 const SavePreferencesButton = () => (
   <div className="flex justify-end">
