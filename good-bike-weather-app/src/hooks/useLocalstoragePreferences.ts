@@ -1,18 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ProfileSettingsType } from 'types'
 
-export const LOCALSTORAGE_PREFERENCES_KEY = 'userPreferences'
+const LOCALSTORAGE_PREFERENCES_KEY = 'userPreferences'
 
-const INITIAL_VALUES = {
+const INITIAL_VALUES: ProfileSettingsType = {
   age: null,
   temp: [false, false, false],
   precip: [false, false, false],
 }
 
-export const usePreferencesInitialValues = () => {
+export const usePreferencesForm = () => {
   const [initialValues, setInitialValues] = useState<ProfileSettingsType>(INITIAL_VALUES)
-
-  // TODO: Create setter here (setState and localstorage as well)
 
   useEffect(() => {
     const foundValues = localStorage.getItem(LOCALSTORAGE_PREFERENCES_KEY)
@@ -22,5 +20,9 @@ export const usePreferencesInitialValues = () => {
     }
   }, [])
 
-  return [initialValues, setInitialValues] as const
+  const onFormSubmit = useCallback((values: ProfileSettingsType) => {
+    localStorage.setItem(LOCALSTORAGE_PREFERENCES_KEY, JSON.stringify(values))
+  }, [])
+
+  return { initialValues, onFormSubmit } as const
 }

@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import clsx from 'clsx'
 import { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
@@ -9,7 +8,7 @@ import { AppNavigation } from 'components/AppNavigation'
 import AVATAR_IMAGE from '/public/images/avatar.png'
 import { KeysHasValue, ProfileSettingsType } from 'types'
 import { IcoCloudSun, IcoCloud, IcoRain, IcoBigRain, IcoTemperatureLow, IcoSun, IcoFloppyDisk } from 'components/icons'
-import { LOCALSTORAGE_PREFERENCES_KEY, usePreferencesInitialValues } from 'hooks/useLocalstoragePreferences'
+import { usePreferencesForm } from 'hooks/useLocalstoragePreferences'
 
 const PRECIPITATION_OPTIONS = [
   {
@@ -58,7 +57,7 @@ const AgeInput = () => {
         className="text-right pr-4 py-1.5 text-2xl bg-off-yellow text-whiskey rounded-lg focus-within:outline-none focus-within:ring-1 focus-within:ring-whiskey"
         type="number"
         onChange={(e) => setFieldValue('age', +e.target.value)}
-        value={age ?? undefined}
+        value={age ?? 18}
       />
     </div>
   )
@@ -161,16 +160,7 @@ const PreferencesSelection = () => (
 )
 
 const ProfilePage: NextPage = () => {
-  const [initialValues, setInitialValues] = usePreferencesInitialValues()
-
-  // TODO: move setting to usePreferencesInitialValues
-  const onFormSubmit = useCallback(
-    (values: ProfileSettingsType) => {
-      setInitialValues(values)
-      localStorage.setItem(LOCALSTORAGE_PREFERENCES_KEY, JSON.stringify(values))
-    },
-    [setInitialValues]
-  )
+  const { initialValues, onFormSubmit } = usePreferencesForm()
 
   return (
     <div className="app-bg">
