@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import clsx from 'clsx'
 import { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
@@ -9,7 +8,7 @@ import { AppNavigation } from 'components/AppNavigation'
 import AVATAR_IMAGE from '/public/images/avatar.png'
 import { KeysHasValue, ProfileSettingsType } from 'types'
 import { IcoCloudSun, IcoCloud, IcoRain, IcoBigRain, IcoTemperatureLow, IcoSun, IcoFloppyDisk } from 'components/icons'
-import { LOCALSTORAGE_PREFERENCES_KEY, useLocalstoragePreferences } from 'hooks/useLocalstoragePreferences'
+import { usePreferencesForm } from 'hooks/usePreferencesForm'
 
 const PRECIPITATION_OPTIONS = [
   {
@@ -28,26 +27,20 @@ const PRECIPITATION_OPTIONS = [
 
 const TEMPERATURE_OPTIONS = [
   {
-    Icon: IcoTemperatureLow,
-    label: '< 0 °C',
+    Icon: IcoSun,
+    label: '10+ °C',
   },
   {
     Icon: IcoCloudSun,
     label: '< 10 °C',
   },
   {
-    Icon: IcoSun,
-    label: '10+ °C',
+    Icon: IcoTemperatureLow,
+    label: '< 0 °C',
   },
 ]
 
-const INITIAL_VALUES = {
-  age: null,
-  temp: [false, false, false],
-  precip: [false, false, false],
-}
-
-const AgeInput: React.FC = () => {
+const AgeInput = () => {
   const {
     setFieldValue,
     values: { age },
@@ -64,7 +57,7 @@ const AgeInput: React.FC = () => {
         className="text-right pr-4 py-1.5 text-2xl bg-off-yellow text-whiskey rounded-lg focus-within:outline-none focus-within:ring-1 focus-within:ring-whiskey"
         type="number"
         onChange={(e) => setFieldValue('age', +e.target.value)}
-        value={age ? (age as number) : ''}
+        value={age ?? 18}
       />
     </div>
   )
@@ -114,12 +107,21 @@ const WeatherOptionsGroup: React.FC<WeatherOptionsGroupProps> = ({ options, name
             {...option}
             key={`${name}-${i}`}
             active={values[name][i]}
-            onClick={() =>
-              setFieldValue(
-                name,
-                values[name].map((v, index) => (index === i ? !v : v))
-              )
-            }
+            onClick={() => {
+              const newValue = !values[name][i]
+
+              if (newValue) {
+                setFieldValue(
+                  name,
+                  values[name].map((v, index) => (index !== 0 && index <= i ? newValue : v))
+                )
+              } else {
+                setFieldValue(
+                  name,
+                  values[name].map((v, index) => (index !== 0 && index >= i ? newValue : v))
+                )
+              }
+            }}
           />
         ))}
       </div>
@@ -133,19 +135,22 @@ type WeatherOptionButtonProps = typeof TEMPERATURE_OPTIONS[0] & {
   onClick: () => void
 }
 
-const WeatherOptionButton: React.FC<WeatherOptionButtonProps> = ({ Icon, label, active, onClick }) => (
-  <button
-    className={clsx(
-      'flex flex-col items-center justify-between py-3 bg-off-yellow rounded-lg text-2xl whitespace-nowrap aspect-square relative',
-      active && 'ring ring-whiskey'
-    )}
-    onClick={onClick}
-  >
-    {active && <div className="absolute top-2 right-2 h-4 w-4 rounded-full bg-whiskey" />}
-    <Icon height={52} className="p-1" />
-    <span>{label}</span>
-  </button>
-)
+const WeatherOptionButton: React.FC<WeatherOptionButtonProps> = ({ Icon, label, active, onClick }) => {
+  return (
+    <button
+      type="button"
+      className={clsx(
+        'flex flex-col items-center justify-between py-3 bg-off-yellow rounded-lg text-2xl whitespace-nowrap aspect-square relative',
+        active && 'ring ring-whiskey'
+      )}
+      onClick={onClick}
+    >
+      {active && <div className="absolute top-2 right-2 h-4 w-4 rounded-full bg-whiskey" />}
+      <Icon height={52} className="p-1" />
+      <span>{label}</span>
+    </button>
+  )
+}
 
 const SavePreferencesButton = () => (
   <div className="flex justify-end">
@@ -167,22 +172,14 @@ const PreferencesSelection = () => (
 )
 
 const ProfilePage: NextPage = () => {
-  const [localstorageValues, setLocalstorageValues] = useLocalstoragePreferences()
-
-  const onFormSubmit = useCallback(
-    (values: ProfileSettingsType) => {
-      setLocalstorageValues(values)
-      localStorage.setItem(LOCALSTORAGE_PREFERENCES_KEY, JSON.stringify(values))
-    },
-    [setLocalstorageValues]
-  )
+  const { initialValues, onFormSubmit } = usePreferencesForm()
 
   return (
     <div className="app-bg">
       <AppNavigation />
       <h1 className="flex w-1/2 text-light-green text-4xl font-extralight pt-4">Your profile & settings</h1>
 
-      <Formik initialValues={localstorageValues ?? INITIAL_VALUES} onSubmit={onFormSubmit} enableReinitialize>
+      <Formik initialValues={initialValues} onSubmit={onFormSubmit} enableReinitialize>
         <Form className="flex flex-col bg-light-green w-11/12 xl:w-3/4 rounded-lg p-8 mb-8 h-full">
           <div className="flex justify-center h-full space-x-20">
             <div className="flex flex-col space-y-16 h-full w-1/2">
