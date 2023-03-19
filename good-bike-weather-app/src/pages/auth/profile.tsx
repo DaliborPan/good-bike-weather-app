@@ -8,7 +8,7 @@ import { AppNavigation } from 'components/AppNavigation'
 import AVATAR_IMAGE from '/public/images/avatar.png'
 import { KeysHasValue, ProfileSettingsType } from 'types'
 import { IcoCloudSun, IcoCloud, IcoRain, IcoBigRain, IcoTemperatureLow, IcoSun, IcoFloppyDisk } from 'components/icons'
-import { usePreferencesForm } from 'hooks/useLocalstoragePreferences'
+import { usePreferencesForm } from 'hooks/usePreferencesForm'
 
 const PRECIPITATION_OPTIONS = [
   {
